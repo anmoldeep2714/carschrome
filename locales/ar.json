@@ -1,0 +1,15 @@
+{
+    "language": "لغة",
+    "menu":{
+        "signin_title":"تسجيل الدخول",
+        "register_title":"يسجل",
+        "shopping_cart_title":"سلة التسوق",
+        "search_btn_title":"يبحث",
+        "search_input_placeholder":"ابحث حسب اسم القطعة أو رقم القطعة أو العلامة التجارية"
+    },
+    "home_page":{
+        "banner_title":"اختر سيارتك",
+        "banner_description":"اختر سيارتك أكثر من 100,000 قطعة غيار للسيارات والشاحنات"
+    }
+
+}

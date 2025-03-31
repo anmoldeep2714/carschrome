@@ -1,0 +1,14 @@
+{
+    "language": "Language",
+    "menu":{
+        "signin_title":"Sign in",
+        "register_title":"Register",
+        "shopping_cart_title":"Shopping Cart",
+        "search_btn_title":"Search",
+        "search_input_placeholder":"Search by  part name, part number or brand"
+    },
+    "home_page":{
+        "banner_title":"Select your vehicle",
+        "banner_description":"Select your vehicleOver 100,000 Auto and Truck Parts"
+    }
+}
