@@ -199,7 +199,7 @@ onBeforeUnmount(() => {
             <div class="wrapper">
                 <div class="inner">
                     <a :href="localePath('/')" class="logo-wrapper">
-                        <img src="assets/images/logo.png" alt="carschrome">
+                        <img src="assets/images/logo.png" alt="carschrome-rahul">
                     </a>
                     <div class="search-language-cart-wrapper">
                         <div class="search-bar-form-wrapper">
