@@ -33,7 +33,7 @@ const fetchWP = async () => {
 const getCartCount = async () => {
     console.log('getCartCount');
     try {
-        const response = await fetch(`${config.public.siteUrl}/wp-json/custom/v1/cart-count`, {
+        const response = await fetch(`${config.public.siteUrl}wp-json/custom/v1/cart-count`, {
             credentials: "include"
         });
         const data = await response.json();
