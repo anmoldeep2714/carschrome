@@ -4,8 +4,6 @@ import { useAuthStore } from '~/stores/auth';
 const { $apiCall } = useNuxtApp();
 const { locales, locale } = useI18n();
 const config = useRuntimeConfig();
-import { useForm, useField } from 'vee-validate';
-import * as yup from 'yup';
 import { ref } from 'vue';
 
 const authPopStore = useAuthPopStore();
