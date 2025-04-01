@@ -2,7 +2,7 @@
 import Slug from '~/components/Slug.vue';
 import { onMounted } from 'vue';
 const { $apiCall } = useNuxtApp();
-const { locales,locale } = useI18n();
+const { locales, locale } = useI18n();
 const config = useRuntimeConfig();
 
 const fetchWP = async () => {
@@ -29,11 +29,26 @@ const fetchWP = async () => {
 
 };
 
+
+const getCartCount = async () => {
+    console.log('getCartCount');
+    try {
+        const response = await fetch(`${config.public.siteUrl}/wp-json/custom/v1/cart-count`, {
+            credentials: "include"
+        });
+        const data = await response.json();
+        console.log('getCartCount_response', data);
+    } catch (error) {
+        console.error("Error fetching cart count:", error);
+    }
+}
+
 onMounted(() => {
-    fetchWP();
+    /*  fetchWP(); */
+    getCartCount();
 });
 </script>
 
 <template>
-   <Slug></Slug>
+    <Slug></Slug>
 </template>
