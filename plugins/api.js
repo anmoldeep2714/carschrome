@@ -48,7 +48,17 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
         catch (error) {
 
-            return { success: false, message: error.message };
+            const returnData = {};
+            returnData.success = false;
+            returnData.status = error.statusCode || 500;
+            returnData.message = error.message;
+
+            if(returnData.status==406){
+                const errors = returnData.errors;
+                returnData.message = errors[0];
+            }
+             
+            return returnData;
         }
     };
 

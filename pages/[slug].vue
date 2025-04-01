@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 const { $apiCall } = useNuxtApp();
 const { locales, locale } = useI18n();
 const config = useRuntimeConfig();
-import axios from 'axios';
+/* import axios from 'axios'; */
 import { useRoute } from '#imports';
 import Loader from '~/components/Loader.vue';
 import { useMenuStore } from '~/stores/menu';
@@ -102,7 +102,7 @@ const getCartCountNew = async () => {
     }
 }
 
-const addToCart = async function (productId, quantity) {
+/* const addToCart = async function (productId, quantity) {
     try {
         // Assuming you have session cookies from the user's browser
         const cookies = document.cookie;
@@ -123,7 +123,7 @@ const addToCart = async function (productId, quantity) {
     } catch (error) {
         console.error('Error adding product to cart', error);
     }
-}
+} */
 
 onMounted(() => {
     /*  fetchWP(); */
