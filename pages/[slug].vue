@@ -43,9 +43,23 @@ const getCartCount = async () => {
     }
 }
 
+const getCartCountNew = async () => {
+    console.log('getCartCount');
+    try {
+        const response = await fetch(`${config.public.siteUrl}api-test.php`, {
+            credentials: "include"
+        });
+        const data = await response.json();
+        console.log('getCartCount_response', data);
+    } catch (error) {
+        console.error("Error fetching cart count:", error);
+    }
+}
+
 onMounted(() => {
     /*  fetchWP(); */
-    getCartCount();
+   /*  getCartCount(); */
+   getCartCountNew();
 });
 </script>
 
