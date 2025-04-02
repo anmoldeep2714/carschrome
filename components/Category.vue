@@ -187,11 +187,11 @@
                                             </div>
                                         </div>
                                         <div class="">
-                                            <div class="product-price">
+                                            <!-- <div class="product-price">
                                                 <span class="currency">$</span>
                                                 <span v-html="product.price"></span>
-                                            </div>
-                                            <a href="" class="cart-button">
+                                            </div> -->
+                                            <a :href="localePath(`/${product.slug}`)" class="cart-button">
                                                 <span>${{product.price}}</span>
                                             </a> 
                                         </div>
@@ -211,7 +211,7 @@
                                             <a :href="localePath(`/${product.slug}`)" v-html="product.name"></a>
                                         </div> 
                                     </div>
-                                    <a href="" class="cart-button">
+                                    <a :href="localePath(`/${product.slug}`)" class="cart-button">
                                         <span>${{product.price}}</span>
                                          
                                     </a>

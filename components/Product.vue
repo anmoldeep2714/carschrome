@@ -258,10 +258,14 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="product-details-tab-content-wrapper">
-                        <div class="product-details-tab-content" :class="{'active':0==activeProductTab}">
+                        <div class="product-details-tab-content" 
+                        :class="{'active':0==activeProductTab}"
+                        :style="{'display': activeProductTab === 0 ? 'block' : 'none'}"
+                        >
                             <div v-html="product.description"></div>
                         </div>
-                        <div class="product-details-tab-content" :class="{'active':0==activeProductTab}">
+                        <div class="product-details-tab-content" :class="{'active':1==activeProductTab}"
+                        :style="{'display': activeProductTab === 1 ? 'block' : 'none'}">
 
                             <div class="specification-table">
                                 <div class="row">
@@ -319,7 +323,8 @@ onMounted(() => {
                             </div>
 
                         </div>
-                        <div class="product-details-tab-content" :class="{'active':0==activeProductTab}">
+                        <div class="product-details-tab-content" :class="{'active':2==activeProductTab}"
+                        :style="{'display': activeProductTab === 2 ? 'block' : 'none'}">
                             <h2>1 review for Total Energies Quartz INEO Pure Power </h2>
                             <div class="review-cards">
                                 <div class="review-card">
