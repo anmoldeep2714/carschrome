@@ -31,7 +31,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   plugins: ['~/plugins/api'],
-  modules: ['@nuxtjs/i18n', 'nuxt-swiper', '@pinia/nuxt', '@vee-validate/nuxt', '@element-plus/nuxt'],
+  modules: ['@nuxtjs/i18n', 'nuxt-swiper', '@pinia/nuxt','@element-plus/nuxt'],
   i18n: {
     vueI18n: './i18n.config.ts',
     locales: ['en', 'ar'],
