@@ -1,4 +1,60 @@
 <script setup>
+import { ref } from 'vue'
+import { useMenuStore } from '~/stores/menu';
+
+
+import { Thumbs } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+const modules = [Thumbs];
+const menuStore = useMenuStore();
+
+const productData = ref(null);
+const product = ref({});
+const activeProductTab = ref(0);
+/* const productGalleryRef = ref(null);
+const productGalleryThumbRef = ref(null); */
+
+const thumbsSwiper = ref(null);
+
+
+
+
+
+
+
+productData.value = menuStore.getProductData();
+product.value = productData.value.product;
+
+/* const productImageThumbCarousel = new useSwiper(productGalleryThumbRef, {
+    slidesPerView: 5,
+    spaceBetween: 10,
+    watchSlidesProgress: true,
+    watchOverflow: true,
+    slideToClickedSlide: true,
+}); */
+
+/* const gallerySwiper = useSwiper(productGalleryRef, {
+    slidesPerView: 1,
+    spaceBetween: 0,
+    thumbs: {
+        swiper: productImageThumbCarousel,
+    }
+}); */
+
+const setThumbsSwiper = (swiper) => {
+    thumbsSwiper.value = swiper;
+};
+
+const toggleProductTabs = (tab) =>{
+    activeProductTab.value = tab;
+}
+
+
+onMounted(() => {
+    /*  thumbsSwiper.value = productGalleryThumbRef.value.swiper; */
+});
+
 </script>
 <template>
     <main>
@@ -21,69 +77,30 @@
             <div class="wrapper">
                 <div class="inner">
                     <div class="product-image-side">
-                        <div
-                            class="product-image-carousel swiper swiper-initialized swiper-horizontal swiper-backface-hidden">
-                            <div class="swiper-wrapper" id="swiper-wrapper-e84c75e6f847e714" aria-live="polite">
-                                <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 5"
-                                    style="width: 698px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-img-11.jpg"
-                                        alt="">
-                                </div>
-                                <div class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 5"
-                                    style="width: 698px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-tab-img-3.jpg"
-                                        alt="">
-                                </div>
-                                <div class="swiper-slide" role="group" aria-label="3 / 5" style="width: 698px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-img-2.jpg"
-                                        alt="">
-                                </div>
-                                <div class="swiper-slide" role="group" aria-label="4 / 5" style="width: 698px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-img-5.jpg"
-                                        alt="">
-                                </div>
-                                <div class="swiper-slide" role="group" aria-label="5 / 5" style="width: 698px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-img-10.jpg"
-                                        alt="">
-                                </div>
-                            </div>
-                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                        <div class="product-image-carousel swiper">
+
+                            <Swiper :modules="[Thumbs]" :slides-per-view="1" :space-between="0" :thumbs="{ swiper: thumbsSwiper }">
+                                <!--  <swiper-container ref="productGalleryRef"> -->
+                                <SwiperSlide v-for="(galleryImage, galleyIdx) in product.gallery_images">
+                                    <img :src="galleryImage" alt="">
+                                </SwiperSlide>
+                            </Swiper>
+                            <!--  </swiper-container> -->
                         </div>
-                        <div
-                            class="product-image-thumb-carousel swiper swiper-initialized swiper-horizontal swiper-watch-progress swiper-backface-hidden swiper-thumbs">
-                            <div class="swiper-wrapper" id="swiper-wrapper-22d6b115128e3b83" aria-live="polite"
-                                style="transform: translate3d(0px, 0px, 0px);">
-                                <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active swiper-slide-thumb-active"
-                                    role="group" aria-label="1 / 5" style="width: 104px; margin-right: 10px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-img-11.jpg"
-                                        alt="">
-                                </div>
-                                <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-next"
-                                    role="group" aria-label="2 / 5" style="width: 104px; margin-right: 10px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-tab-img-3.jpg"
-                                        alt="">
-                                </div>
-                                <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible" role="group"
-                                    aria-label="3 / 5" style="width: 104px; margin-right: 10px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-img-2.jpg"
-                                        alt="">
-                                </div>
-                                <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible" role="group"
-                                    aria-label="4 / 5" style="width: 104px; margin-right: 10px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-img-5.jpg"
-                                        alt="">
-                                </div>
-                                <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible" role="group"
-                                    aria-label="5 / 5" style="width: 104px; margin-right: 10px;">
-                                    <img src="https://highrev.qodeinteractive.com/wp-content/uploads/2024/07/shop-img-10.jpg"
-                                        alt="">
-                                </div>
-                            </div>
-                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                        <div class="product-image-thumb-carousel swiper">
+                            <Swiper :modules="[Thumbs]" watch-slides-progress :slides-per-view="4" :space-between="10"
+                                :watch-slides-progress="true" :watch-overflow="true" :slide-to-clicked-slide="true"
+                                @swiper="setThumbsSwiper">
+                                <!-- <swiper-container ref="productGalleryThumbRef"> -->
+                                <SwiperSlide v-for="(galleryImage, galleyIdx) in product.gallery_images">
+                                    <img :src="galleryImage" alt="">
+                                </SwiperSlide>
+                            </Swiper>
+                            <!--  </swiper-container> -->
                         </div>
                     </div>
                     <div class="product-details-side">
-                        <div class="product-title">Total Energies Quartz INEO Pure Power</div>
+                        <div class="product-title" v-html="product.name"></div>
                         <div class="product-review">
                             <div class="product-review-stars">
                                 <div class="product-review-stars-fill">
@@ -153,11 +170,12 @@
                             </div>
                             <div class="product-reviewc-count"><a href="">(1)</a></div>
                         </div>
-                        <div class="product-price">$58</div>
-                        <div class="product-desc">
-                            <p>Alienum phaedrum torquatos nec eu, vis detraxit periculis ex, nihil expete mei. Mei an
-                                consequat an. Eius lorem tincidunt vix at, vel pertinax sensibus id, error epicurei mea
-                                et. Qui purto zril laoreet. Ex error omnium interpretaris pro, alia illum ea vicsas.</p>
+                        <div class="product-price">${{ product.price }}</div>
+                        <div class="product-desc" v-html="product.description"></div>
+                        <div class="product-select-vehicle-wrapper">
+                            <button type="submit" class="select-vehicle" onclick="addToCart()">
+                                <span>Select vehicle</span>
+                            </button>
                         </div>
                         <div class="product-add-to-cart-wrapper">
                             <div class="quantity-input">
@@ -171,106 +189,60 @@
                                 <span>Add to cart</span>
                             </button>
                         </div>
-                        <div class="wishlist-compare-row">
-                            <button class="button-add-to-wishlist">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="15.998" height="15.006"
-                                    viewBox="0 0 15.998 15.006">
-                                    <path
-                                        d="M805,648.4a4.485,4.485,0,0,0-3.44-1.723,3.953,3.953,0,0,0-3.333,1.573,3.677,3.677,0,0,0-3.333-1.573,4.482,4.482,0,0,0-3.44,1.724,5.511,5.511,0,0,0-1.136,4.455c.84,4.471,7.2,8.525,7.474,8.7a.817.817,0,0,0,.871,0c.27-.17,6.634-4.224,7.474-8.7A5.514,5.514,0,0,0,805,648.4Zm-.482,4.146c-.592,3.153-4.9,6.34-6.291,7.3-1.4-.96-5.7-4.147-6.292-7.3a3.819,3.819,0,0,1,.786-3.083,2.855,2.855,0,0,1,2.172-1.119,3.03,3.03,0,0,1,2.583,1.724.822.822,0,0,0,.746.487h0a.826.826,0,0,0,.748-.482,3.032,3.032,0,0,1,2.585-1.729,2.855,2.855,0,0,1,2.172,1.119,3.818,3.818,0,0,1,.795,3.085Z"
-                                        transform="translate(-790.228 -646.676)"></path>
-                                </svg><span>Wishlist</span>
-                            </button>
-                            <button class="button-add-to-compare">
-                                <svg class="qodef-svg--compare" xmlns="http://www.w3.org/2000/svg" width="22.077"
-                                    height="16.651" viewBox="0 0 22.077 16.651">
-                                    <g>
-                                        <path
-                                            d="M13.62 10.882H3.42l2.067-2.066a1 1 0 0 0 0-1.412.989.989 0 0 0-.705-.293.992.992 0 0 0-.707.293L.319 11.159a.98.98 0 0 0 0 1.445l3.754 3.754a1 1 0 1 0 1.413-1.412l-2.067-2.067h10.2a1 1 0 1 0 0-2Z">
-                                        </path>
-                                        <path
-                                            d="M22.077 4.76a.989.989 0 0 0-.317-.722L18.003.283a1.023 1.023 0 0 0-1.412 0 1 1 0 0 0 0 1.412l2.066 2.066h-10.2a1 1 0 1 0 0 2h10.2L16.59 7.828a1 1 0 0 0 1.412 1.413l3.755-3.755a.988.988 0 0 0 .32-.726Z">
-                                        </path>
-                                    </g>
-                                </svg><span>Compare</span>
-                            </button>
-
-
-                        </div>
-
-                        <div class="product-desc">
-                            <ul>
-                                <li>Improved fuel efficiency</li>
-                                <li>Delivery time: 1-2 business days</li>
-                                <li>Free 90 days return</li>
-                            </ul>
-                        </div>
                         <div class="share-media-links">
                             <span>Share:</span>
                             <ul>
                                 <li>
                                     <a href="">
-                                        <svg class="qodef-svg--facebook qodef-facebook-share"
-                                            xmlns="http://www.w3.org/2000/svg" width="15.185" height="15.185">
-                                            <path
-                                                d="M14.347 0H.838A.838.838 0 0 0 0 .838v13.509a.838.838 0 0 0 .838.837h7.274V9.313H6.139v-2.3h1.973v-1.69a2.761 2.761 0 0 1 2.947-3.029 16.223 16.223 0 0 1 1.768.09v2.05h-1.206c-.952 0-1.136.452-1.136 1.116v1.464h2.276l-.3 2.3h-1.98v5.872h3.863a.838.838 0 0 0 .838-.838V.837A.838.838 0 0 0 14.347 0Z">
+                                        <svg class="qodef-svg--facebook qodef-facebook-share" xmlns="http://www.w3.org/2000/svg" width="15.185" height="15.185">
+                                            <path d="M14.347 0H.838A.838.838 0 0 0 0 .838v13.509a.838.838 0 0 0 .838.837h7.274V9.313H6.139v-2.3h1.973v-1.69a2.761 2.761 0 0 1 2.947-3.029 16.223 16.223 0 0 1 1.768.09v2.05h-1.206c-.952 0-1.136.452-1.136 1.116v1.464h2.276l-.3 2.3h-1.98v5.872h3.863a.838.838 0 0 0 .838-.838V.837A.838.838 0 0 0 14.347 0Z">
                                             </path>
                                         </svg>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="">
-                                        <svg class="qodef-svg--twitter qodef-twitter-share"
-                                            xmlns="http://www.w3.org/2000/svg" width="13.056" height="13.346">
-                                            <path
-                                                d="m12.629 0-1.617 1.889q-1.6 1.858-3.195 3.714a.927.927 0 0 0-.039.05l5.278 7.682c-.053 0-.09.009-.126.009H9.282a.187.187 0 0 1-.18-.095q-1.7-2.481-3.4-4.957l-.089-.123-.926 1.075-3.438 4a.257.257 0 0 1-.222.1c-.33-.006-.659 0-1.023 0l5.1-5.924-.818-1.191L.086.113A1.244 1.244 0 0 1 .024.001h3.884c.009.015.016.03.026.045l3.287 4.783c.013.021.032.038.052.064.038-.04.07-.074.1-.109Q9.264 2.589 11.151.392c.109-.126.21-.261.315-.391ZM11.47 12.512c-.027-.044-.036-.062-.049-.079Q7.408 6.691 3.393.953a.24.24 0 0 0-.17-.082c-.512-.006-1.025 0-1.537 0-.028 0-.056 0-.106.006.041.063.072.109.1.154l2.888 4.13q2.537 3.629 5.071 7.258a.2.2 0 0 0 .192.1h1.5Z">
+                                        <svg class="qodef-svg--twitter qodef-twitter-share" xmlns="http://www.w3.org/2000/svg" width="13.056" height="13.346">
+                                            <path d="m12.629 0-1.617 1.889q-1.6 1.858-3.195 3.714a.927.927 0 0 0-.039.05l5.278 7.682c-.053 0-.09.009-.126.009H9.282a.187.187 0 0 1-.18-.095q-1.7-2.481-3.4-4.957l-.089-.123-.926 1.075-3.438 4a.257.257 0 0 1-.222.1c-.33-.006-.659 0-1.023 0l5.1-5.924-.818-1.191L.086.113A1.244 1.244 0 0 1 .024.001h3.884c.009.015.016.03.026.045l3.287 4.783c.013.021.032.038.052.064.038-.04.07-.074.1-.109Q9.264 2.589 11.151.392c.109-.126.21-.261.315-.391ZM11.47 12.512c-.027-.044-.036-.062-.049-.079Q7.408 6.691 3.393.953a.24.24 0 0 0-.17-.082c-.512-.006-1.025 0-1.537 0-.028 0-.056 0-.106.006.041.063.072.109.1.154l2.888 4.13q2.537 3.629 5.071 7.258a.2.2 0 0 0 .192.1h1.5Z">
                                             </path>
                                         </svg>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="">
-                                        <svg class="qodef-svg--linkedin qodef-linkedin-share"
-                                            xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="14px"
-                                            height="14px" viewBox="0 0 45 45">
-                                            <path
-                                                d="M1.5,6.6c0-2.7,2.4-5.1,5.1-5.1s5.1,2.4,5.1,5.1s-2.4,5.1-5.1,5.1S1.5,9.3,1.5,6.6L1.5,6.6z M2.1,43.5V15.6h8.7v27.9H2.1zM34.8,43.5V29.7c0-3.3,0-7.5-4.5-7.5c-4.5,0.3-5.1,3.9-5.1,7.5v13.8h-8.7V15.6h8.4v3.9l0,0c1.8-3,4.8-4.8,8.1-4.5c8.7,0,10.5,5.7,10.5,13.2v15.3H34.8L34.8,43.5z">
+                                        <svg class="qodef-svg--linkedin qodef-linkedin-share" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="14px" height="14px" viewBox="0 0 45 45">
+                                            <path d="M1.5,6.6c0-2.7,2.4-5.1,5.1-5.1s5.1,2.4,5.1,5.1s-2.4,5.1-5.1,5.1S1.5,9.3,1.5,6.6L1.5,6.6z M2.1,43.5V15.6h8.7v27.9H2.1zM34.8,43.5V29.7c0-3.3,0-7.5-4.5-7.5c-4.5,0.3-5.1,3.9-5.1,7.5v13.8h-8.7V15.6h8.4v3.9l0,0c1.8-3,4.8-4.8,8.1-4.5c8.7,0,10.5,5.7,10.5,13.2v15.3H34.8L34.8,43.5z">
                                             </path>
                                         </svg>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="">
-                                        <svg class="qodef-svg--pinterest qodef-pinterest-share"
-                                            xmlns="http://www.w3.org/2000/svg" width="16.426" height="16.427">
-                                            <path
-                                                d="M16.426 7.757v.9c-.011.057-.024.114-.033.172-.049.354-.076.712-.149 1.061a8.218 8.218 0 0 1-6.846 6.441c-.248.037-.5.064-.744.1h-.9c-.121-.014-.242-.03-.363-.043A7.915 7.915 0 0 1 3.052 14.6 8.025 8.025 0 0 1 .096 6.921a7.673 7.673 0 0 1 2.229-4.438A8.042 8.042 0 0 1 9.497.105a7.8 7.8 0 0 1 4.171 1.979 8.069 8.069 0 0 1 2.662 4.95c.038.237.064.48.096.723Zm-8.919 2.6c.156.1.3.188.439.29a2.052 2.052 0 0 0 1.821.273 2.942 2.942 0 0 0 1.939-1.694 4.776 4.776 0 0 0 .445-2.651 2.907 2.907 0 0 0-1.333-2.253 4.428 4.428 0 0 0-4.362-.338 3.621 3.621 0 0 0-2.173 3.995 1.687 1.687 0 0 0 1.251 1.488c.124.036.168 0 .216-.105a.864.864 0 0 0-.044-.913 2.038 2.038 0 0 1-.243-1.706 2.722 2.722 0 0 1 1.074-1.568 2.873 2.873 0 0 1 2.413-.581 2.01 2.01 0 0 1 1.632 1.4 3.8 3.8 0 0 1-.465 3.255 1.4 1.4 0 0 1-1.31.724c-.5-.033-.943-.239-.861-.941a7.09 7.09 0 0 1 .184-.859c.112-.456.252-.9.348-1.362a.742.742 0 0 0-.429-.89.9.9 0 0 0-1.057.21 2.115 2.115 0 0 0-.344 2.135.471.471 0 0 1 .031.258c-.033.194-.084.385-.134.576a18.494 18.494 0 0 0-.666 3.194 6.712 6.712 0 0 0 .058 1.506 2.533 2.533 0 0 0 .655-.7 6.026 6.026 0 0 0 .747-1.966c.057-.253.108-.509.167-.779Z">
+                                        <svg class="qodef-svg--pinterest qodef-pinterest-share" xmlns="http://www.w3.org/2000/svg" width="16.426" height="16.427">
+                                            <path d="M16.426 7.757v.9c-.011.057-.024.114-.033.172-.049.354-.076.712-.149 1.061a8.218 8.218 0 0 1-6.846 6.441c-.248.037-.5.064-.744.1h-.9c-.121-.014-.242-.03-.363-.043A7.915 7.915 0 0 1 3.052 14.6 8.025 8.025 0 0 1 .096 6.921a7.673 7.673 0 0 1 2.229-4.438A8.042 8.042 0 0 1 9.497.105a7.8 7.8 0 0 1 4.171 1.979 8.069 8.069 0 0 1 2.662 4.95c.038.237.064.48.096.723Zm-8.919 2.6c.156.1.3.188.439.29a2.052 2.052 0 0 0 1.821.273 2.942 2.942 0 0 0 1.939-1.694 4.776 4.776 0 0 0 .445-2.651 2.907 2.907 0 0 0-1.333-2.253 4.428 4.428 0 0 0-4.362-.338 3.621 3.621 0 0 0-2.173 3.995 1.687 1.687 0 0 0 1.251 1.488c.124.036.168 0 .216-.105a.864.864 0 0 0-.044-.913 2.038 2.038 0 0 1-.243-1.706 2.722 2.722 0 0 1 1.074-1.568 2.873 2.873 0 0 1 2.413-.581 2.01 2.01 0 0 1 1.632 1.4 3.8 3.8 0 0 1-.465 3.255 1.4 1.4 0 0 1-1.31.724c-.5-.033-.943-.239-.861-.941a7.09 7.09 0 0 1 .184-.859c.112-.456.252-.9.348-1.362a.742.742 0 0 0-.429-.89.9.9 0 0 0-1.057.21 2.115 2.115 0 0 0-.344 2.135.471.471 0 0 1 .031.258c-.033.194-.084.385-.134.576a18.494 18.494 0 0 0-.666 3.194 6.712 6.712 0 0 0 .058 1.506 2.533 2.533 0 0 0 .655-.7 6.026 6.026 0 0 0 .747-1.966c.057-.253.108-.509.167-.779Z">
                                             </path>
                                         </svg>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="">
-                                        <svg class="qodef-svg--tumblr qodef-tumblr-share"
-                                            xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="14px"
-                                            height="14px" viewBox="0 0 45 45">
-                                            <path
-                                                d="M26.7,42C17.1,42,15,35.1,15,31.2V20.4h-3.6c-0.6,0-0.9-0.3-0.9-0.9v-5.1c0-0.6,0.3-0.9,0.9-1.2c3.9-1.5,6.6-4.8,6.6-9C18,3.3,18.6,3,19.2,3h5.7c0.3,0,0.9,0.3,0.9,0.9v8.7h6.6c0.3,0,0.9,0.3,0.9,0.9l0,0v6.3c0,0.3-0.3,0.9-0.9,0.9h-6.6v10.2c0,2.7,1.8,4.2,5.4,2.7c0-0.6,0.6-0.6,0.9-0.6c0.3,0,0.6,0.3,0.6,0.6l1.8,4.8c0,0.3,0.3,0.9,0,1.2C32,41.4,29.4,42,26.7,42z">
+                                        <svg class="qodef-svg--tumblr qodef-tumblr-share" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="14px" height="14px" viewBox="0 0 45 45">
+                                            <path d="M26.7,42C17.1,42,15,35.1,15,31.2V20.4h-3.6c-0.6,0-0.9-0.3-0.9-0.9v-5.1c0-0.6,0.3-0.9,0.9-1.2c3.9-1.5,6.6-4.8,6.6-9C18,3.3,18.6,3,19.2,3h5.7c0.3,0,0.9,0.3,0.9,0.9v8.7h6.6c0.3,0,0.9,0.3,0.9,0.9l0,0v6.3c0,0.3-0.3,0.9-0.9,0.9h-6.6v10.2c0,2.7,1.8,4.2,5.4,2.7c0-0.6,0.6-0.6,0.9-0.6c0.3,0,0.6,0.3,0.6,0.6l1.8,4.8c0,0.3,0.3,0.9,0,1.2C32,41.4,29.4,42,26.7,42z">
                                             </path>
                                         </svg>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="">
-                                        <svg class="qodef-svg--vk qodef-vk-share" xmlns="http://www.w3.org/2000/svg"
-                                            width="20.861" height="11.293">
-                                            <path
-                                                d="M20.855 9.474a.671.671 0 0 0-.1-.332 11.02 11.02 0 0 0-2.091-2.286l-.891-.792c.34-.524.68-1.013.984-1.523a11.607 11.607 0 0 0 1.188-3.35c.093-.388.192-.777.293-1.188h-4.885c-.39 0-.307-.073-.428.315a10.29 10.29 0 0 1-1.7 3.38c-.045.056-.094.108-.176.2V.016H6.966c0 .57.017 1.124-.007 1.675a.727.727 0 0 0 .3.7 1.359 1.359 0 0 1 .594 1.426 6.251 6.251 0 0 0-.006.84c-.133-.114-.229-.186-.314-.27a4.728 4.728 0 0 1-1.384-3.029C6.106.918 6.142.469 6.142.019H.008a17.357 17.357 0 0 0 .108 1.818 12.047 12.047 0 0 0 2.725 5.89 9.545 9.545 0 0 0 7.6 3.559H13.059V8.853a.25.25 0 0 1 .064.007c.049.029.1.06.143.093A5.007 5.007 0 0 1 15.02 11.1a.281.281 0 0 0 .3.192c1.775-.007 3.55 0 5.325 0h.224c-.01-.626-.004-1.223-.014-1.818Zm-3 .355H16.335a.552.552 0 0 1-.5-.277 6.342 6.342 0 0 0-2.57-2.289l-.079-.038H11.596v2.594h-.728c-.322.006-.638.009-.952-.009a8.036 8.036 0 0 1-4.31-1.493 9.98 9.98 0 0 1-3.375-4.409 12.281 12.281 0 0 1-.429-1.309c-.053-.185-.106-.37-.163-.554a1.161 1.161 0 0 1-.037-.189l-.053-.329.323-.065h2.793l.038.238a5.834 5.834 0 0 0 4.605 5.188v-.989c0-1.113 0-2.228.006-3.341a.328.328 0 0 0-.12-.309 2.362 2.362 0 0 1-.207-.19l-.62-.592h3.21v4.328h.248c.469 0 .942 0 1.413-.006a.167.167 0 0 0 .082-.034 11.007 11.007 0 0 0 2.631-3.96.54.54 0 0 1 .435-.336c.4-.009.809-.009 1.226-.008h.744l-.084.348a8.157 8.157 0 0 1-1.054 2.463 10.157 10.157 0 0 1-1.545 1.821l.361.337c.418.39.832.776 1.251 1.157l.344.311a13.43 13.43 0 0 1 1.479 1.469l.383.462Z">
+                                        <svg class="qodef-svg--vk qodef-vk-share" xmlns="http://www.w3.org/2000/svg" width="20.861" height="11.293">
+                                            <path d="M20.855 9.474a.671.671 0 0 0-.1-.332 11.02 11.02 0 0 0-2.091-2.286l-.891-.792c.34-.524.68-1.013.984-1.523a11.607 11.607 0 0 0 1.188-3.35c.093-.388.192-.777.293-1.188h-4.885c-.39 0-.307-.073-.428.315a10.29 10.29 0 0 1-1.7 3.38c-.045.056-.094.108-.176.2V.016H6.966c0 .57.017 1.124-.007 1.675a.727.727 0 0 0 .3.7 1.359 1.359 0 0 1 .594 1.426 6.251 6.251 0 0 0-.006.84c-.133-.114-.229-.186-.314-.27a4.728 4.728 0 0 1-1.384-3.029C6.106.918 6.142.469 6.142.019H.008a17.357 17.357 0 0 0 .108 1.818 12.047 12.047 0 0 0 2.725 5.89 9.545 9.545 0 0 0 7.6 3.559H13.059V8.853a.25.25 0 0 1 .064.007c.049.029.1.06.143.093A5.007 5.007 0 0 1 15.02 11.1a.281.281 0 0 0 .3.192c1.775-.007 3.55 0 5.325 0h.224c-.01-.626-.004-1.223-.014-1.818Zm-3 .355H16.335a.552.552 0 0 1-.5-.277 6.342 6.342 0 0 0-2.57-2.289l-.079-.038H11.596v2.594h-.728c-.322.006-.638.009-.952-.009a8.036 8.036 0 0 1-4.31-1.493 9.98 9.98 0 0 1-3.375-4.409 12.281 12.281 0 0 1-.429-1.309c-.053-.185-.106-.37-.163-.554a1.161 1.161 0 0 1-.037-.189l-.053-.329.323-.065h2.793l.038.238a5.834 5.834 0 0 0 4.605 5.188v-.989c0-1.113 0-2.228.006-3.341a.328.328 0 0 0-.12-.309 2.362 2.362 0 0 1-.207-.19l-.62-.592h3.21v4.328h.248c.469 0 .942 0 1.413-.006a.167.167 0 0 0 .082-.034 11.007 11.007 0 0 0 2.631-3.96.54.54 0 0 1 .435-.336c.4-.009.809-.009 1.226-.008h.744l-.084.348a8.157 8.157 0 0 1-1.054 2.463 10.157 10.157 0 0 1-1.545 1.821l.361.337c.418.39.832.776 1.251 1.157l.344.311a13.43 13.43 0 0 1 1.479 1.469l.383.462Z">
                                             </path>
                                         </svg>
                                     </a>
                                 </li>
                             </ul>
                         </div>
+                         
                     </div>
 
                 </div>
@@ -280,21 +252,16 @@
             <div class="wrapper">
                 <div class="inner">
                     <div class="product-details-tab-header">
-                        <div class="tab active">Description</div>
-                        <div class="tab">Specification</div>
-                        <div class="tab">Reviews <span class="count">(1)</span>
+                        <div class="tab" @click="toggleProductTabs(0)" :class="{'active':0==activeProductTab}">Description</div>
+                        <div class="tab" @click="toggleProductTabs(1)" :class="{'active':1==activeProductTab}">Specification</div>
+                        <div class="tab" @click="toggleProductTabs(2)" :class="{'active':2==activeProductTab}">Reviews <span class="count">(1)</span>
                         </div>
                     </div>
                     <div class="product-details-tab-content-wrapper">
-                        <div class="product-details-tab-content" style="display: block;">
-                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Lorem ipsum dolor
-                                sit amet, consecteturadipiscing elit, sed do eiusmod temp incid idunt ut labore et
-                                dolore magna aliqua. nisi ut aliquip ex ea commodo consat. Duis aute irure dolor in
-                                reprehenderit n volup tate velit esse cillum dolore euy elit ale ruin irure dolor
-                                in. Adipisci accusata interpretaris nec ea. In etiam neglegentur has, his iudico
-                                vidisse feugiat id. An nibh homero pri, mutat feugait salutandi.</p>
+                        <div class="product-details-tab-content" :class="{'active':0==activeProductTab}">
+                            <div v-html="product.description"></div>
                         </div>
-                        <div class="product-details-tab-content">
+                        <div class="product-details-tab-content" :class="{'active':0==activeProductTab}">
 
                             <div class="specification-table">
                                 <div class="row">
@@ -352,7 +319,7 @@
                             </div>
 
                         </div>
-                        <div class="product-details-tab-content">
+                        <div class="product-details-tab-content" :class="{'active':0==activeProductTab}">
                             <h2>1 review for Total Energies Quartz INEO Pure Power </h2>
                             <div class="review-cards">
                                 <div class="review-card">

@@ -37,21 +37,24 @@ watch(slugDetails, (newData) => {
 
         } else {
 
-            menuStore.setCategoryData(newData);
+            
             
             var type = newData.type;
             if (type == 'category') {
+                menuStore.setCategoryData(newData);
                 /* dynamicComponent.value = defineAsyncComponent(() =>
                     import(`@/components/Category.vue`)
                 ); */
                 dynamicComponentName.value = 'category';
             }
 
-            /* if (type == 'product') {
-                dynamicComponent.value = defineAsyncComponent(() =>
+            if (type == 'product') {
+                menuStore.setProductData(newData);
+                /* dynamicComponent.value = defineAsyncComponent(() =>
                     import(`@/components/Product.vue`)
-                );
-            } */
+                ); */
+                dynamicComponentName.value = 'product';
+            }
         }
     }
 }, { immediate: true });
@@ -142,4 +145,5 @@ onMounted(() => {
 <template>
     <!-- <component :is="dynamicComponent" v-if="dynamicComponent" /> -->
      <category v-if="dynamicComponentName && dynamicComponentName=='category'"></category>
+     <Product v-if="dynamicComponentName && dynamicComponentName=='product'"></Product>
 </template>

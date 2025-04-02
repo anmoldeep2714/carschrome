@@ -110,6 +110,37 @@ const setLocale = (lang) => {
     });
 }
 
+
+const getSetLocale = (lang) => {
+    const pathSegments = route.path.split('/').filter(Boolean); // Remove empty segments
+    const currentLang = localeCodes.includes(pathSegments[0]) ? pathSegments[0] : defaultLocale;
+
+    let newPath;
+    if (lang === defaultLocale) {
+
+        if (currentLang === lang) return;
+        // Remove language prefix if switching to default locale
+        /* newPath = `/${pathSegments.slice(1).join('/')}`; */
+        newPath = `/${slug}`;
+    } else {
+        // Add new locale if it's not already set
+        if (currentLang === lang) return; // Do nothing if already in selected locale
+        /*  newPath = `/${lang}/${pathSegments.slice(1).join('/')}`; */
+        newPath = `/${lang}/${slug}`;
+    }
+
+
+    return router.resolve({ path: newPath, query: route.query }).href;
+
+
+
+    // Preserve query parameters
+    /* router.replace({ path: newPath, query: route.query }).then(() => {
+        locale.value = lang;
+        location.reload(); // Reload to apply changes
+    }); */
+}
+
 const checkForSignin = () => {
 
     var token = localStorage.getItem("auth_token");
@@ -133,7 +164,6 @@ const OpenLnaguage = () => {
     else {
         showLanguage.value = 1;
     }
-
 }
 
 const handleClickOutSide = (event) => {
@@ -157,7 +187,7 @@ const openNavInner = (idx) => {
 
 }
 
-const closeNavBar = () =>{
+const closeNavBar = () => {
     currentNavIndex.value = null;
 }
 
@@ -233,7 +263,8 @@ onBeforeUnmount(() => {
                                     <div class="languages-dropdown-list" :class="{ show: showLanguage }">
                                         <ul>
                                             <li v-for="(loc, idx) in localesArr">
-                                                <a @click="setLocale(idx)">{{ loc }}</a>
+                                                <a :href="getSetLocale(idx)" @click="OpenLnaguage()">{{ loc }}</a>
+                                                <!-- <a :href="getSetLocale(idx)" @click="setLocale(idx)">{{ loc }}</a> -->
                                             </li>
                                         </ul>
                                     </div>
@@ -301,9 +332,10 @@ onBeforeUnmount(() => {
                                             <span class="text"v-html="childMenu.post_title"></span>
                                         </a> -->
 
-                                        <NuxtLink @click="closeNavBar" v-for="(childMenu, childMenuIndex) in menu.children"
+                                        <NuxtLink @click="closeNavBar"
+                                            v-for="(childMenu, childMenuIndex) in menu.children"
                                             :to="localePath(`/${childMenu.menu_slug}`)">
-                                            <span class="text"v-html="childMenu.post_title"></span>
+                                            <span class="text" v-html="childMenu.post_title"></span>
                                         </NuxtLink>
                                     </div>
                                 </div>

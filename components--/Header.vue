@@ -33,7 +33,6 @@ if (auth_token.value != null || auth_token.value == '') {
 const { data: menuData, status: menuStatus, error } = useAsyncData("menuData", async () => {
     const params = {
         action: 'get-menu',
-        menu_slug: 'categories-menu',
         lang: locale.value
     }
     return await apiCall(config.public.apiBase, "GET", params);
