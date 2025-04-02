@@ -1,5 +1,5 @@
 <script setup>
-import Slug from '~/components/Slug.vue';
+import Slug from '~/components/Product.vue';
 import { onMounted } from 'vue';
 const { $apiCall } = useNuxtApp();
 const { locales,locale } = useI18n();

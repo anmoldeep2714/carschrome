@@ -63,8 +63,8 @@ const fetchBestSeller = async () => {
 };
 
 const getRoute = () => {
-  var path = localePath("/testPage");
-  console.log('path',path);
+    var path = localePath("/testPage");
+    console.log('path', path);
 };
 
 onMounted(() => {
@@ -84,19 +84,25 @@ onMounted(() => {
                             <div class="input-column">
                                 <div class="input-wrapper input-select-wrapper">
                                     <div class="serial">1</div>
-                                    <input type="text" placeholder="Type Year">
+                                    <el-select filterable placeholder="Select Year" style="width: 240px">
+                                        <el-option label="Select Year" value="" />
+                                    </el-select>
                                 </div>
                             </div>
                             <div class="input-column">
                                 <div class="input-wrapper input-select-wrapper">
                                     <div class="serial">2</div>
-                                    <input type="text" placeholder="Type Make">
+                                    <el-select filterable placeholder="Select Make" style="width: 240px">
+                                        <el-option label="Select Make" value="" />
+                                    </el-select>
                                 </div>
                             </div>
                             <div class="input-column">
                                 <div class="input-wrapper input-select-wrapper">
                                     <div class="serial">3</div>
-                                    <input type="text" placeholder="Type Model">
+                                    <el-select filterable placeholder="Select Model" style="width: 240px">
+                                        <el-option label="Select Model" value="" />
+                                    </el-select>
                                 </div>
                             </div>
                             <div class="input-column">
@@ -242,8 +248,8 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-       
-       <!--  <div class="best-seller-section">
+
+        <!--  <div class="best-seller-section">
             <div class="wrapper">
                 <div class="inner">
                     <div class="section-header">
@@ -338,7 +344,7 @@ onMounted(() => {
             </div>
         </div> -->
 
-        
+
         <div class="dual-cta-section">
             <div class="wrapper">
                 <div class="inner">

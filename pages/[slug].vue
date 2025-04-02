@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,shallowRef } from 'vue';
 const { $apiCall } = useNuxtApp();
 const { locales, locale } = useI18n();
 const config = useRuntimeConfig();
@@ -8,10 +8,15 @@ import { useRoute } from '#imports';
 import Loader from '~/components/Loader.vue';
 import { useMenuStore } from '~/stores/menu';
 
+import Category from '@/components/Category.vue';
+import Product from '@/components/Product.vue';
+
 
 
 const menuStore = useMenuStore();
+/* const dynamicComponent = shallowRef(null); */
 const dynamicComponent = ref(null);
+const dynamicComponentName = ref(null);
 const route = useRoute();
 const slug = route.params.slug;
 
@@ -24,7 +29,7 @@ const { data: slugDetails, status: slugStatus, error: slugError } = useAsyncData
 });
 
 watch(slugDetails, (newData) => {
-    console.log('newData', newData);
+    console.log('category_data', newData);
 
     if (newData) {
        
@@ -36,16 +41,17 @@ watch(slugDetails, (newData) => {
             
             var type = newData.type;
             if (type == 'category') {
-                dynamicComponent.value = defineAsyncComponent(() =>
+                /* dynamicComponent.value = defineAsyncComponent(() =>
                     import(`@/components/Category.vue`)
-                );
+                ); */
+                dynamicComponentName.value = 'category';
             }
 
-            if (type == 'product') {
+            /* if (type == 'product') {
                 dynamicComponent.value = defineAsyncComponent(() =>
                     import(`@/components/Product.vue`)
                 );
-            }
+            } */
         }
     }
 }, { immediate: true });
@@ -134,5 +140,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <component :is="dynamicComponent" v-if="dynamicComponent" />
+    <!-- <component :is="dynamicComponent" v-if="dynamicComponent" /> -->
+     <category v-if="dynamicComponentName && dynamicComponentName=='category'"></category>
 </template>

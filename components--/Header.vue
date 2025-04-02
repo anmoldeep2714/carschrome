@@ -6,10 +6,12 @@ import { useRouter, useRoute } from '#imports';
 import { apiCall } from '~/utils/api';
 const { locales, defaultLocale, locale } = useI18n();
 const config = useRuntimeConfig();
-import { useAuthStore } from '~/stores/auth';   
+import { useAuthStore } from '~/stores/auth';
+import { useMenuStore } from '~/stores/menu';
 import { useLocalePath } from "#imports";
 
 const authStore = useAuthStore();
+const menuStore = useMenuStore();
 const localesArr = ref({ en: 'English', ar: 'Arabic' });
 const siteUrl = config.public.siteUrl;
 const auth_token = useCookie('auth_token');
@@ -46,6 +48,8 @@ const { data: menuData, status: menuStatus, error } = useAsyncData("menuData", a
 
 
 watch(menuData, (newData) => {
+    console.log('newData', newData);
+    menuStore.setMenuData(newData);
     useHead({
         title: "Title updated",
         meta: [
@@ -154,6 +158,10 @@ const openNavInner = (idx) => {
 
 }
 
+const closeNavBar = () =>{
+    currentNavIndex.value = null;
+}
+
 onMounted(() => {
     /*  checkForSignin(); */
     document.addEventListener("click", handleClickOutSide);
@@ -165,7 +173,7 @@ onBeforeUnmount(() => {
 
 </script>
 <template>
-    <header class="header ">
+    <header class="header">
         <div class="header-top">
             <div class="wrapper">
                 <div class="inner">
@@ -199,7 +207,7 @@ onBeforeUnmount(() => {
             <div class="wrapper">
                 <div class="inner">
                     <a :href="localePath('/')" class="logo-wrapper">
-                        <img src="assets/images/logo.png" alt="carschrome-rahul">
+                        <img src="assets/images/logo.png" alt="">
                     </a>
                     <div class="search-language-cart-wrapper">
                         <div class="search-bar-form-wrapper">
@@ -268,7 +276,8 @@ onBeforeUnmount(() => {
                             <ul class="tab-menu">
                                 <li v-for="(menu, menuIndex) in menuData" :key="menuIndex" ref="menuItemsRef"
                                     @click="openNavInner(menuIndex)">
-                                    <a v-html="menu.post_title" :class="{ 'active': menuIndex === currentNavIndex }"></a>
+                                    <a v-html="menu.post_title"
+                                        :class="{ 'active': menuIndex === currentNavIndex }"></a>
                                 </li>
                             </ul>
                             <!-- <ul class="tab-menu">
@@ -287,11 +296,16 @@ onBeforeUnmount(() => {
                                 <div class="tab-content" v-for="(menu, menuIndex) in menuData" :dataIndex="menuIndex"
                                     :class="{ 'active': menuIndex === currentNavIndex }" ref="subMenusRefs">
                                     <div class="parts-grid" v-if="menu.children.length > 0" :key="menuIndex">
-                                        <a class="" v-for="(childMenu, childMenuIndex) in menu.children"
-                                            :key="childMenuIndex">
-                                            <!--  <img :src="childMenu.thumbnail_guid" alt=""> -->
-                                            <span class="text" v-html="childMenu.post_title"></span>
-                                        </a>
+                                        <!-- <a class="" v-for="(childMenu, childMenuIndex) in menu.children"
+                                            :key="childMenuIndex" :href="localePath(`/${childMenu.menu_slug}`)">
+                                            <img :src="childMenu.thumbnail_guid" alt="">
+                                            <span class="text"v-html="childMenu.post_title"></span>
+                                        </a> -->
+
+                                        <NuxtLink @click="closeNavBar" v-for="(childMenu, childMenuIndex) in menu.children"
+                                            :to="localePath(`/${childMenu.menu_slug}`)">
+                                            <span class="text"v-html="childMenu.post_title"></span>
+                                        </NuxtLink>
                                     </div>
                                 </div>
                             </div>
