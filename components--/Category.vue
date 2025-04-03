@@ -1,100 +1,3 @@
-<script setup>
-import { useMenuStore } from '~/stores/menu';
-import { useRouter, useRoute, useLocalePath } from '#imports';
-import { ref, onMounted } from 'vue';
-import Pagination from "@/components/Pagination.vue";
-
-const { $apiCall } = useNuxtApp();
-const config = useRuntimeConfig();
-
-const menuStore = useMenuStore();
-const menuData = ref([]);
-const categoryData = ref([]);
-const productsListView = ref('grid');
-
-const products = ref([]);
-const pagination = ref({
-    current_page: 1,
-    total_pages: 1,
-});
-
-
-menuData.value = menuStore.getMenuData();
-categoryData.value = menuStore.getCategoryData();
-const currentCategoryId = ref(categoryData.value.category.term_id);
-const { locales, locale, defaultLocale } = useI18n();
-
-const localePath = useLocalePath();
-
-
-console.log('selected_category ', categoryData.value.category.term_id);
-const route = useRoute();
-const router = useRouter();
-
-const isSelectedCategory = (category_id, menu_slug) => {
-    console.log('checking_selected', category_id + '_' + menu_slug);
-    return category_id == categoryData.value.category.term_id
-}
-
-const changeProductsView = (proview) => {
-    productsListView.value = proview;
-}
-
-const handleChangeCategory = (category_id, slug) => {
-
-    var newPath = '/';
-    if (defaultLocale == locale.value) {
-        newPath += `${slug}`;
-    }
-    else {
-        newPath += `${locale.value}/${slug}`;
-    }
-    console.log(category_id);
-    console.log(slug);
-    console.log(categoryData.value.category.term_id);
-    if (category_id != categoryData.value.category.term_id) {
-        /*  router.push(`/${slug}`); */
-
-        router.replace({ path: newPath, query: route.query }).then(() => {
-            location.reload(); // Reload to apply changes
-        });
-
-        /* navigateTo({
-            path: newPath,
-            query: route.query
-        }) */
-    }
-}
-
-const fetchProducts = async (page = 1) => {
-    /* const response = await fetch(`/api/products?page=${page}`);
-    const data = await response.json();
-    products.value = data.products;
-    pagination.value = data.pagination; */
-
-    const params = {
-        action: 'get-category-products',
-        category_id: currentCategoryId.value,
-        lang: locale.value
-    }
-    const result = await $apiCall({
-        url: `${config.public.apiBase}`,
-        method: "GET",
-        params: params
-    });
-
-    if (result.success) {
-        const data = result.data;
-        products.value = data.products;
-        pagination.value = data.pagination;
-    }
-};
-
-onMounted(() => {
-    fetchProducts();
-})
-
-</script>
 <template>
     <main>
         <div class="breadcrumb-header-section">
@@ -146,7 +49,7 @@ onMounted(() => {
                             </button>
                         </div> -->
                     </div>
-                    <div class="product-list-wrapper">
+                    <div class="product-list-wrapper" v-if="!productsLoading">
                         <div class="product-list-header-wrapper">
                             <div class="list-and-grid-toggle-wrapper">
                                 <div class="list-and-grid-toggle" :class="{ 'active': productsListView == 'grid' }">
@@ -195,22 +98,19 @@ onMounted(() => {
                                 </div>
                             </div>
                         </div>
-                        <div class="products-grid" :class="{ 'active': productsListView == 'grid' }">
-                            <div class="" v-if="productsListView == 'list'">
+                         
+                            <div class="products-grid" v-if="productsListView == 'list'">
                                 <div class="product-card product-card--list-version"
                                     v-for="(product, productIdx) in products" :key="productIdx">
-                                    <a href="" class="link-wrapper"></a>
+                                    <a :href="localePath(`/${product.slug}`)" class="link-wrapper"></a>
                                     <div class="product-image">
                                         <img :src="product.image_url" alt="">
                                     </div>
 
                                     <div class="product-content">
-                                        <div class="">
-                                            <div class="categories">
-                                                <a href="">{{ product.categories }}</a>
-                                            </div>
+                                        <div class=""> 
                                             <div class="product-name">
-                                                <a href="" v-html="product.name"></a>
+                                                <a :href="localePath(`/${product.slug}`)" v-html="product.name"></a>
                                             </div>
                                             <div class="product-review">
                                                 <div class="product-review-stars">
@@ -287,132 +187,159 @@ onMounted(() => {
                                             </div>
                                         </div>
                                         <div class="">
-                                            <div class="product-price">
+                                            <!-- <div class="product-price">
                                                 <span class="currency">$</span>
                                                 <span v-html="product.price"></span>
-                                            </div>
-                                            <a href="" class="cart-button">
-                                                <span>Add to cart</span>
-                                            </a>
-                                            <div class="compare-wishlist-wrapper">
-                                                <div class="add-to-wishlist">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15.998"
-                                                        height="15.006" viewBox="0 0 15.998 15.006">
-                                                        <path
-                                                            d="M805,648.4a4.485,4.485,0,0,0-3.44-1.723,3.953,3.953,0,0,0-3.333,1.573,3.677,3.677,0,0,0-3.333-1.573,4.482,4.482,0,0,0-3.44,1.724,5.511,5.511,0,0,0-1.136,4.455c.84,4.471,7.2,8.525,7.474,8.7a.817.817,0,0,0,.871,0c.27-.17,6.634-4.224,7.474-8.7A5.514,5.514,0,0,0,805,648.4Zm-.482,4.146c-.592,3.153-4.9,6.34-6.291,7.3-1.4-.96-5.7-4.147-6.292-7.3a3.819,3.819,0,0,1,.786-3.083,2.855,2.855,0,0,1,2.172-1.119,3.03,3.03,0,0,1,2.583,1.724.822.822,0,0,0,.746.487h0a.826.826,0,0,0,.748-.482,3.032,3.032,0,0,1,2.585-1.729,2.855,2.855,0,0,1,2.172,1.119,3.818,3.818,0,0,1,.795,3.085Z"
-                                                            transform="translate(-790.228 -646.676)"></path>
-                                                    </svg>
-                                                    <span>Wishlist</span>
-                                                </div>
-                                                <div class="add-to-compare">
-                                                    <svg class="compare" xmlns="http://www.w3.org/2000/svg"
-                                                        width="22.077" height="16.651" viewBox="0 0 22.077 16.651">
-                                                        <g>
-                                                            <path
-                                                                d="M13.62 10.882H3.42l2.067-2.066a1 1 0 0 0 0-1.412.989.989 0 0 0-.705-.293.992.992 0 0 0-.707.293L.319 11.159a.98.98 0 0 0 0 1.445l3.754 3.754a1 1 0 1 0 1.413-1.412l-2.067-2.067h10.2a1 1 0 1 0 0-2Z">
-                                                            </path>
-                                                            <path
-                                                                d="M22.077 4.76a.989.989 0 0 0-.317-.722L18.003.283a1.023 1.023 0 0 0-1.412 0 1 1 0 0 0 0 1.412l2.066 2.066h-10.2a1 1 0 1 0 0 2h10.2L16.59 7.828a1 1 0 0 0 1.412 1.413l3.755-3.755a.988.988 0 0 0 .32-.726Z">
-                                                            </path>
-                                                        </g>
-                                                    </svg>
-                                                    <span>Compare</span>
-                                                </div>
-                                            </div>
+                                            </div> -->
+                                            <a :href="localePath(`/${product.slug}`)" class="cart-button">
+                                                <span>${{product.price}}</span>
+                                            </a> 
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
 
-                            <div class="" v-if="productsListView == 'grid'">
+                            <div class="products-grid" data-grid-layout="4"  v-if="productsListView == 'grid'">
                                 <div class="product-card" v-for="(product, productIdx) in products" :key="productIdx">
-                                    <a href="" class="link-wrapper"></a>
-                                    <div class="product-content-top">
-                                        <div class="compare-wishlist-wrapper">
-                                            <div class="add-to-wishlist">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="15.998" height="15.006"
-                                                    viewBox="0 0 15.998 15.006">
-                                                    <path
-                                                        d="M805,648.4a4.485,4.485,0,0,0-3.44-1.723,3.953,3.953,0,0,0-3.333,1.573,3.677,3.677,0,0,0-3.333-1.573,4.482,4.482,0,0,0-3.44,1.724,5.511,5.511,0,0,0-1.136,4.455c.84,4.471,7.2,8.525,7.474,8.7a.817.817,0,0,0,.871,0c.27-.17,6.634-4.224,7.474-8.7A5.514,5.514,0,0,0,805,648.4Zm-.482,4.146c-.592,3.153-4.9,6.34-6.291,7.3-1.4-.96-5.7-4.147-6.292-7.3a3.819,3.819,0,0,1,.786-3.083,2.855,2.855,0,0,1,2.172-1.119,3.03,3.03,0,0,1,2.583,1.724.822.822,0,0,0,.746.487h0a.826.826,0,0,0,.748-.482,3.032,3.032,0,0,1,2.585-1.729,2.855,2.855,0,0,1,2.172,1.119,3.818,3.818,0,0,1,.795,3.085Z"
-                                                        transform="translate(-790.228 -646.676)"></path>
-                                                </svg>
-                                            </div>
-                                            <div class="add-to-compare">
-                                                <svg class="compare" xmlns="http://www.w3.org/2000/svg" width="22.077"
-                                                    height="16.651" viewBox="0 0 22.077 16.651">
-                                                    <g>
-                                                        <path
-                                                            d="M13.62 10.882H3.42l2.067-2.066a1 1 0 0 0 0-1.412.989.989 0 0 0-.705-.293.992.992 0 0 0-.707.293L.319 11.159a.98.98 0 0 0 0 1.445l3.754 3.754a1 1 0 1 0 1.413-1.412l-2.067-2.067h10.2a1 1 0 1 0 0-2Z">
-                                                        </path>
-                                                        <path
-                                                            d="M22.077 4.76a.989.989 0 0 0-.317-.722L18.003.283a1.023 1.023 0 0 0-1.412 0 1 1 0 0 0 0 1.412l2.066 2.066h-10.2a1 1 0 1 0 0 2h10.2L16.59 7.828a1 1 0 0 0 1.412 1.413l3.755-3.755a.988.988 0 0 0 .32-.726Z">
-                                                        </path>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a :href="localePath(`/${product.slug}`)" class="link-wrapper"></a> 
                                     <div class="product-image">
                                         <img :src="product.image_url" alt="">
                                     </div>
-                                    <div class="product-content">
-                                        <div class="categories">
-                                            <a href="">{{ product.categories }}</a>
-                                        </div>
+                                    <div class="product-content"> 
                                         <div class="product-name">
-                                            <a href="" v-html="product.name"></a>
-                                        </div>
-                                        <div class="product-price">
-                                            <span class="currency">$</span>
-                                            <span v-html="product.price"></span>
-                                        </div>
+                                            <a :href="localePath(`/${product.slug}`)" v-html="product.name"></a>
+                                        </div> 
                                     </div>
-                                    <a href="" class="cart-button">
-                                        <span>Select options</span>
-                                        <svg class="dropdown-cart" xmlns="http://www.w3.org/2000/svg" width="16.665"
-                                            height="18" viewBox="0 0 16.665 18">
-                                            <path
-                                                d="M15.816 3.962a.85.85 0 0 0-.848.848v4.4a1 1 0 0 1-1 1H5.511a1 1 0 0 1-1-1V2.26a.848.848 0 0 0-.468-.759L1.222.092A.854.854 0 0 0 .085.473a.85.85 0 0 0 .381 1.138l2.349 1.174V9.21a2.7 2.7 0 0 0 2.694 2.7h8.461a2.7 2.7 0 0 0 2.7-2.7v-4.4a.85.85 0 0 0-.854-.848Z">
-                                            </path>
-                                            <path
-                                                d="M6.534 13.073a2.464 2.464 0 1 0 2.464 2.463 2.465 2.465 0 0 0-2.464-2.463Zm0 3.231a.768.768 0 1 1 .768-.768.769.769 0 0 1-.768.768Z">
-                                            </path>
-                                            <path
-                                                d="M14.018 13.073a2.464 2.464 0 1 0 2.464 2.463 2.465 2.465 0 0 0-2.464-2.463Zm0 3.231a.768.768 0 1 1 .768-.768.768.768 0 0 1-.768.768Z">
-                                            </path>
-                                            <path d="M12.257 2.977h-5.03a.85.85 0 1 0 0 1.7h5.03a.85.85 0 0 0 0-1.7Z"
-                                                class="dropdown-cart-plus"></path>
-                                            <path d="M10.59 6.34V1.31a.85.85 0 1 0-1.7 0v5.03a.85.85 0 1 0 1.7 0Z"
-                                                class="dropdown-cart-plus"></path>
-
-
-                                        </svg>
+                                    <a :href="localePath(`/${product.slug}`)" class="cart-button">
+                                        <span>${{product.price}}</span>
+                                         
                                     </a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="products-list-paginations">
-                            <ul>
-                                <li class="active"><a href="">1</a></li>
-                                <li><a href="">2</a></li>
-                                <li><a href="">3</a></li>
-                                <li class="next"><a href=""><svg class="qodef-svg--pagination-arrow-right"
-                                            xmlns="http://www.w3.org/2000/svg" width="7.071" height="11.313"
-                                            viewBox="0 0 7.071 11.313">
-                                            <rect width="8" height="2" transform="translate(7.071 5.657) rotate(135)">
-                                            </rect>
-                                            <rect width="8" height="2" transform="translate(5.657 7.071) rotate(-135)">
-                                            </rect>
-                                        </svg></a></li>
-                            </ul>
-                        </div>
+                        
 
                         <Pagination :currentPage="pagination.current_page" :totalPages="pagination.total_pages"
-                            @page-change="fetchProducts" />
+                            @page-change="changePage" v-if="products.length > 0" />
                     </div>
                 </div>
             </div>
         </div>
     </main>
 </template>
+
+<script setup>
+import { useMenuStore } from '~/stores/menu';
+import { useRouter, useRoute, useLocalePath } from '#imports';
+import { ref, onMounted, watch } from 'vue';
+import Pagination from "@/components/Pagination.vue";
+
+const { $apiCall } = useNuxtApp();
+const config = useRuntimeConfig();
+
+const menuStore = useMenuStore();
+const menuData = ref([]);
+const categoryData = ref([]);
+const productsListView = ref('grid');
+
+const products = ref([]);
+const productsLoading = ref(1);
+const pagination = ref({
+    current_page: 1,
+    total_pages: 1,
+});
+
+
+menuData.value = menuStore.getMenuData();
+categoryData.value = menuStore.getCategoryData();
+const currentCategoryId = ref(categoryData.value.category.term_id);
+const { locales, locale, defaultLocale } = useI18n();
+
+const localePath = useLocalePath();
+
+
+console.log('selected_category ', categoryData.value.category.term_id);
+const route = useRoute();
+const router = useRouter();
+
+const isSelectedCategory = (category_id, menu_slug) => {
+    console.log('checking_selected', category_id + '_' + menu_slug);
+    return category_id == categoryData.value.category.term_id
+}
+
+const changeProductsView = (proview) => {
+    productsListView.value = proview;
+}
+
+const handleChangeCategory = (category_id, slug) => {
+
+    var newPath = '/';
+    if (defaultLocale == locale.value) {
+        newPath += `${slug}`;
+    }
+    else {
+        newPath += `${locale.value}/${slug}`;
+    }
+    console.log(category_id);
+    console.log(slug);
+    console.log(categoryData.value.category.term_id);
+    if (category_id != categoryData.value.category.term_id) {
+        /*  router.push(`/${slug}`); */
+
+        router.replace({ path: newPath, query: route.query }).then(() => {
+            location.reload(); // Reload to apply changes
+        });
+
+        /* navigateTo({
+            path: newPath,
+            query: route.query
+        }) */
+    }
+}
+
+
+
+const changePage = (page) => {
+    router.push({ query: { page } });
+};
+
+const fetchProducts = async (page = 1) => {
+    /* const response = await fetch(`/api/products?page=${page}`);
+    const data = await response.json();
+    products.value = data.products;
+    pagination.value = data.pagination; */
+
+    const params = {
+        action: 'get-category-products',
+        category_id: currentCategoryId.value,
+        page: page,
+        lang: locale.value
+    }
+    const result = await $apiCall({
+        url: `${config.public.apiBase}`,
+        method: "GET",
+        params: params
+    });
+
+
+    if (result.success) {
+        const data = result.data;
+        products.value = data.products;
+        pagination.value = data.pagination;
+    }
+
+    productsLoading.value = 0
+};
+
+
+
+watch(() => route.query.page, (newPage) => {
+    fetchProducts(newPage || 1);
+}, { immediate: true });
+
+
+onMounted(() => {
+    fetchProducts(1);
+})
+
+</script>

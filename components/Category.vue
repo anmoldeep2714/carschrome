@@ -237,6 +237,7 @@ import Pagination from "@/components/Pagination.vue";
 const { $apiCall } = useNuxtApp();
 const config = useRuntimeConfig();
 
+const selectedVehicles = ref([]);
 const menuStore = useMenuStore();
 const menuData = ref([]);
 const categoryData = ref([]);
@@ -256,14 +257,11 @@ const currentCategoryId = ref(categoryData.value.category.term_id);
 const { locales, locale, defaultLocale } = useI18n();
 
 const localePath = useLocalePath();
-
-
-console.log('selected_category ', categoryData.value.category.term_id);
 const route = useRoute();
 const router = useRouter();
 
+
 const isSelectedCategory = (category_id, menu_slug) => {
-    console.log('checking_selected', category_id + '_' + menu_slug);
     return category_id == categoryData.value.category.term_id
 }
 
@@ -280,9 +278,6 @@ const handleChangeCategory = (category_id, slug) => {
     else {
         newPath += `${locale.value}/${slug}`;
     }
-    console.log(category_id);
-    console.log(slug);
-    console.log(categoryData.value.category.term_id);
     if (category_id != categoryData.value.category.term_id) {
         /*  router.push(`/${slug}`); */
 
@@ -315,6 +310,17 @@ const fetchProducts = async (page = 1) => {
         page: page,
         lang: locale.value
     }
+
+     
+
+    if(selectedVehicles.value.length > 0){
+        const selectedVehicle = selectedVehicles.value[0];
+       
+        params.year = selectedVehicle.year;
+        params.make = selectedVehicle.make.term_id;
+        params.model = selectedVehicle.model.term_id;
+        params.isFitment = 1;
+    }
     const result = await $apiCall({
         url: `${config.public.apiBase}`,
         method: "GET",
@@ -332,6 +338,16 @@ const fetchProducts = async (page = 1) => {
 };
 
 
+const initManageStoreVehicles = () => {
+    const storeVehicles = localStorage.getItem("selectedVehicles");
+    if (storeVehicles) {
+        selectedVehicles.value = JSON.parse(storeVehicles);
+    }
+
+    fetchProducts(1);
+}
+
+
 
 watch(() => route.query.page, (newPage) => {
     fetchProducts(newPage || 1);
@@ -339,7 +355,8 @@ watch(() => route.query.page, (newPage) => {
 
 
 onMounted(() => {
-    fetchProducts(1);
+    initManageStoreVehicles();
+    
 })
 
 </script>

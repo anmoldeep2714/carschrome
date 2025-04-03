@@ -4,6 +4,7 @@ export const useMenuStore = defineStore('menuStore',{
     state:()=>({
         menuData:[],
         categoryData:[],
+        productData:[],
     }),
     actions:{
         setMenuData(data:[]){
@@ -17,6 +18,12 @@ export const useMenuStore = defineStore('menuStore',{
         },
         getCategoryData(){
             return this.categoryData ? this.categoryData : [];
+        },
+        setProductData(data:[]){
+            this.productData = data;
+        },
+        getProductData(){
+            return this.productData ? this.productData : [];
         }
     },
 });
