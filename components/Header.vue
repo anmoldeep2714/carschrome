@@ -57,14 +57,13 @@ const { data: menuData, status: menuStatus, error } = useAsyncData("menuData", a
 
 
 watch(menuData, (newData) => {
-    console.log('newData', newData);
     menuStore.setMenuData(newData);
-    useHead({
+   /*  useHead({
         title: "Title updated",
         meta: [
             { name: "description", content: "description updated" },
         ],
-    });
+    }); */
 }, { immediate: true });
 
 /* Runs immediately on setup (doesn't wait for menuData to change). */

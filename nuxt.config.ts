@@ -1,11 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: true,
-  
   app: {
-    baseURL:'/',
+    baseURL: '/',
     head: {
+      title: 'Carschrome',
+      meta: [
+        { name: 'description', content: '' }
+      ],
       link: [
+        { rel: "icon", type: "image/png", href: "/icon/favicon.png" },
+        { rel: "icon", type: "image/x-icon", href: "/icon/favicon.ico" },
+        { rel: "apple-touch-icon", href: "/icon/apple-touch-icon.png" },
         {
           rel: 'preconnect',
           href: 'https://fonts.googleapis.com',
@@ -22,16 +28,16 @@ export default defineNuxtConfig({
     }
   },
   css: ['@/assets/css/style.css'],
-  runtimeConfig:{
-    public:{
-      apiBase:'https://twinsteam.co/clients/carschrome/shop/carsapi.php',
-      siteUrl:'https://twinsteam.co/clients/carschrome/shop/',
+  runtimeConfig: {
+    public: {
+      apiBase: 'https://twinsteam.co/clients/carschrome/shop/carsapi.php',
+      siteUrl: 'https://twinsteam.co/clients/carschrome/shop/',
     }
   },
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   plugins: ['~/plugins/api'],
-  modules: ['@nuxtjs/i18n', 'nuxt-swiper', '@pinia/nuxt','@element-plus/nuxt'],
+  modules: ['@nuxtjs/i18n', 'nuxt-swiper', '@pinia/nuxt', '@element-plus/nuxt'],
   i18n: {
     vueI18n: './i18n.config.ts',
     locales: ['en', 'ar'],

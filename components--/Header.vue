@@ -9,13 +9,16 @@ const config = useRuntimeConfig();
 import { useAuthStore } from '~/stores/auth';
 import { useMenuStore } from '~/stores/menu';
 import { useLocalePath } from "#imports";
+import { useVehiclePopupStore } from '~/stores/vehiclePopup';
 
+const vehiclePopup = useVehiclePopupStore();
 const authStore = useAuthStore();
 const menuStore = useMenuStore();
 const localesArr = ref({ en: 'English', ar: 'Arabic' });
 const siteUrl = config.public.siteUrl;
 const auth_token = useCookie('auth_token');
 const auth_user = useCookie('auth_user');
+const cookie_storeVehicles = useCookie('cookie_storeVehicles');
 const showLanguage = ref(0);
 const localePath = useLocalePath();
 const currentNavIndex = ref(null);
@@ -26,8 +29,15 @@ const menuItemsRef = ref([]);
 
 /* auth_token.value = null;
 auth_user.value = null; */
+
+/* update user if found auth_token in cookie*/
 if (auth_token.value != null || auth_token.value == '') {
     authStore.signin(auth_token.value, auth_user.value);
+}
+
+/* update store vehicles if found stores vehicles in cookie*/
+if (cookie_storeVehicles.value != null || cookie_storeVehicles.value == '') {
+    vehiclePopup.updateStoreVehicles(cookie_storeVehicles.value);
 }
 
 const { data: menuData, status: menuStatus, error } = useAsyncData("menuData", async () => {

@@ -54,6 +54,8 @@ const pages = computed(() => {
 });
 
 const changePage = (page) => {
+
+  console.log('page',page);
   if (page >= 1 && page <= props.totalPages) {
     emit("page-change", page);
   }

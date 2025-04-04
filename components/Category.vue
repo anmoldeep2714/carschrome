@@ -102,7 +102,7 @@
                             <div class="products-grid" v-if="productsListView == 'list'">
                                 <div class="product-card product-card--list-version"
                                     v-for="(product, productIdx) in products" :key="productIdx">
-                                    <a :href="localePath(`/${product.slug}`)" class="link-wrapper"></a>
+                                    <a :href="localePath(`/product/${product.pro_slug}`)" class="link-wrapper"></a>
                                     <div class="product-image">
                                         <img :src="product.image_url" alt="">
                                     </div>
@@ -110,7 +110,7 @@
                                     <div class="product-content">
                                         <div class=""> 
                                             <div class="product-name">
-                                                <a :href="localePath(`/${product.slug}`)" v-html="product.name"></a>
+                                                <a :href="localePath(`/product/${product.pro_slug}`)" v-html="product.name"></a>
                                             </div>
                                             <div class="product-review">
                                                 <div class="product-review-stars">
@@ -191,7 +191,7 @@
                                                 <span class="currency">$</span>
                                                 <span v-html="product.price"></span>
                                             </div> -->
-                                            <a :href="localePath(`/${product.slug}`)" class="cart-button">
+                                            <a :href="localePath(`/product/${product.pro_slug}`)" class="cart-button">
                                                 <span>${{product.price}}</span>
                                             </a> 
                                         </div>
@@ -202,16 +202,16 @@
 
                             <div class="products-grid" data-grid-layout="4"  v-if="productsListView == 'grid'">
                                 <div class="product-card" v-for="(product, productIdx) in products" :key="productIdx">
-                                    <a :href="localePath(`/${product.slug}`)" class="link-wrapper"></a> 
+                                    <a :href="localePath(`/product/${product.pro_slug}`)" class="link-wrapper"></a> 
                                     <div class="product-image">
                                         <img :src="product.image_url" alt="">
                                     </div>
                                     <div class="product-content"> 
                                         <div class="product-name">
-                                            <a :href="localePath(`/${product.slug}`)" v-html="product.name"></a>
+                                            <a :href="localePath(`/product/${product.pro_slug}`)" v-html="product.name"></a>
                                         </div> 
                                     </div>
-                                    <a :href="localePath(`/${product.slug}`)" class="cart-button">
+                                    <a :href="localePath(`/product/${product.pro_slug}`)" class="cart-button">
                                         <span>${{product.price}}</span>
                                          
                                     </a>
@@ -344,13 +344,24 @@ const initManageStoreVehicles = () => {
         selectedVehicles.value = JSON.parse(storeVehicles);
     }
 
-    fetchProducts(1);
+    const pageParam = Number(route.query.page);
+    const isValidPage = !isNaN(pageParam) && pageParam > 0;
+    if(isValidPage){
+        fetchProducts(pageParam);
+    }
+    else{
+        fetchProducts(1);
+    }
+    
 }
 
 
 
 watch(() => route.query.page, (newPage) => {
-    fetchProducts(newPage || 1);
+   if(newPage){
+    fetchProducts(newPage);
+   }
+   /*  fetchProducts(newPage || 1); */
 }, { immediate: true });
 
 
