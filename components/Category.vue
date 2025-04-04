@@ -56,7 +56,7 @@
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="showing-count">Showing 1–16 of 44 results</div>
+                                <div class="showing-count">{{paginationMessage}}</div>
                             </div>
                             <div class="sorting-dropdown">
                                 <div class="selected-value">Default sorting</div>
@@ -204,7 +204,7 @@
 <script setup>
 import { useMenuStore } from '~/stores/menu';
 import { useRouter, useRoute, useLocalePath } from '#imports';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch,computed  } from 'vue';
 import Pagination from "@/components/Pagination.vue";
 import { useVehiclePopupStore } from "@/stores/vehiclePopup";
 const vehiclePopup = useVehiclePopupStore();
@@ -351,6 +351,18 @@ watch(() => route.query.page, (newPage) => {
    }
    /*  fetchProducts(newPage || 1); */
 }, { immediate: true });
+
+
+const paginationMessage = computed(() => {
+  const { total, per_page, current_page } = pagination.value;
+
+  if (total === 0) return "0 Results";
+
+  const start = (current_page - 1) * per_page + 1;
+  const end = Math.min(start + per_page - 1, total);
+
+  return `Showing ${start}–${end} of ${total} results`;
+});
 
 
 onMounted(() => {
