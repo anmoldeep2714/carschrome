@@ -53,7 +53,7 @@ a {
 .categories-section h2 {
     font-size: 36px;
     line-height: 1.13em;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     margin: 0 0 5px 0;
 }
 
@@ -281,7 +281,7 @@ a {
 
 .shopping-banners-column h2 {
     font-family: 'Barlow Condensed';
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 38px;
     line-height: .94737em;
     font-weight: 600;
@@ -354,7 +354,7 @@ a {
 .best-seller-section h2 {
     font-size: 36px;
     line-height: 1.13em;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .best-seller-section h2 .highlight,
@@ -483,9 +483,14 @@ a {
     transition: 0.3s ease-out;
 }
 
+.product-card .cart-button span:nth-child(2) {
+    margin-right: 5px;
+}
+
 .product-card .cart-button {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     padding: 14px 20px;
     text-transform: uppercase;
@@ -1047,7 +1052,7 @@ a {
     padding: 0 20px;
     padding-right: 40px;
     display: inline-block;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 15px;
     cursor: pointer;
     transition: background .2s linear, color .2s linear, border .2s linear;
@@ -1095,6 +1100,7 @@ a {
 }
 
 .header-menu-row .tab-content-wrapper {
+    z-index: 101;
     position: absolute;
     width: 100%;
     background-color: #fff;
@@ -1248,7 +1254,7 @@ a {
     padding-right: 40px;
 
     font-family: 'Barlow Condensed';
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 18px;
     line-height: 1.11111em;
     font-weight: 600;
@@ -1262,7 +1268,7 @@ a {
 }
 
 .header-menu-row .tab-content-wrapper .tab-content-head-wrapper h2 {
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 1.2rem;
     margin-bottom: 8px;
 }
@@ -1384,7 +1390,7 @@ a {
     color: #ffffff;
     font-size: 56px;
     font-weight: 700;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     line-height: 55px;
     margin-bottom: 20px;
 }
@@ -1559,7 +1565,7 @@ a {
     font-size: 36px;
     margin: 0 0 10px 0;
     line-height: 1.13em;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .essentials-section .section-header h4 {
@@ -1772,7 +1778,7 @@ a {
     margin: 0 0 10px 0;
     color: #fff;
     line-height: 1.13em;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     text-align: center;
 }
 
@@ -1870,7 +1876,7 @@ a {
     line-height: 1.143em;
     font-weight: 500;
     color: #fff;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .dual-cta-section .cta-card-wrapper h3 {
@@ -1878,7 +1884,7 @@ a {
     line-height: 58px;
     color: #fff;
     margin-top: 13px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .dual-cta-section .cta-card-wrapper .cta:hover {
@@ -1958,7 +1964,7 @@ a {
 .latest-updates-section .section-header h2 {
     font-size: 36px;
     line-height: 1.13em;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .blog-post-grid {
@@ -2035,7 +2041,7 @@ a {
 
 .blog-post-grid .item .blog-title {
     color: #000;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     letter-spacing: -.025em;
     font-size: 22px;
     line-height: 1.11111em;
@@ -2080,7 +2086,7 @@ a {
 
 .footer-top h2 {
     color: #000;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 18px;
     line-height: 1.11111em;
     font-weight: 700;
@@ -2189,7 +2195,7 @@ a {
     color: #fff;
     font-size: 36px;
     line-height: 1.13em;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     margin-bottom: 30px;
     text-align: center;
 }
@@ -2230,7 +2236,7 @@ a {
 .expert-help-section .expert-help-grid .item h3 {
     margin-top: 30px;
     color: #fff;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 24px;
     line-height: 1.2em;
     font-weight: 700;
@@ -2262,7 +2268,7 @@ a {
 .trusted-shopping-wrapper h2,
 .payment-options-wrapper h2 {
     color: #000;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 24px;
     line-height: 1.2em;
     font-weight: 700;
@@ -2316,7 +2322,7 @@ a {
     width: 100%;
     text-align: center;
     color: #000;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 16px;
     line-height: 1.2em;
     font-weight: 600;
@@ -2491,7 +2497,7 @@ a {
 
 .popup-sign-form h2 {
     text-align: left;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     margin-bottom: 24px;
     padding: 0 30px 0 0;
 }
@@ -2587,7 +2593,7 @@ a {
 .footer-main .footer-quick-links-column h2 {
     margin: 0 0 28px;
     color: #000;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 18px;
     line-height: 1.11111em;
     font-weight: 700;
@@ -2665,7 +2671,7 @@ a {
 .footer-main .footer-quick-links-column h3 {
     margin: 28px 0 12px;
     color: #000;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 16px;
     line-height: 1.11111em;
     font-weight: 700;
@@ -2884,7 +2890,7 @@ a {
     margin: 0 0 15px;
     cursor: pointer;
     color: #000;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-weight: 700;
 }
 
@@ -2907,15 +2913,20 @@ a {
     padding-right: 20px;
 }
 
-.shop-filter-list-section>.wrapper>.inner {
-    display: flex;
-    gap: 20px;
-    flex-direction: column-reverse;
+.shop-filter-list-section>.wrapper>.inner>h2 {
+
+    font-size: 36px;
+    line-height: 1.13em;
+    margin: 0 0 5px 0;
+}
+
+.shop-filter-list-section>.wrapper>.inner>.desc p {
+    margin: 10px 0 0 0;
+    line-height: 23px;
 }
 
 @media (min-width: 1025px) {
     .shop-filter-list-section>.wrapper>.inner {
-        flex-direction: row;
         padding-bottom: 80px;
     }
 }
@@ -3116,6 +3127,10 @@ a {
     background-color: transparent;
 }
 
+.products-list-paginations ul li.active {
+    pointer-events: none;
+}
+
 .products-list-paginations ul li.active,
 .products-list-paginations ul li:hover {
     color: #fff;
@@ -3240,7 +3255,7 @@ a {
     line-height: 40px;
     color: #000000;
     font-weight: 600;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     margin-bottom: 19px;
 }
 
@@ -3637,7 +3652,7 @@ a {
     font-size: 16px;
     line-height: 1.31em;
     color: #000;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-weight: 700;
     margin: 4px 0 0;
 }
@@ -3651,7 +3666,7 @@ a {
     line-height: 1em;
     font-weight: 700;
     margin: 0 0 32px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .product-image-thumb-carousel {
@@ -4121,13 +4136,35 @@ a {
 
 .select-you-vehicle-section .active-vehicle-form h3 {
     color: #fff;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     letter-spacing: -.025em;
     font-size: 22px;
     line-height: 1.11111em;
     font-weight: 700;
     margin-bottom: 16px;
     text-align: center;
+}
+
+.not-popup .select-you-vehicle-popup {
+    z-index: 1;
+    position: relative;
+    background-image: url(../images/banner.jpg);
+}
+
+
+.not-popup .select-you-vehicle-popup>.wrapper {
+    max-width: 1400px;
+}
+
+.not-popup .select-you-vehicle-popup>.wrapper>.inner {
+    background-color: transparent;
+    padding: 0;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.not-popup .select-you-vehicle-popup .close-popup {
+    display: none;
 }
 
 .select-you-vehicle-popup {
@@ -4163,6 +4200,7 @@ a {
     background-color: #ce2f17;
 }
 
+
 .select-you-vehicle-popup .close-popup::after {
     content: '';
     mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTM0Mi42IDE1MC42YzEyLjUtMTIuNSAxMi41LTMyLjggMC00NS4zcy0zMi44LTEyLjUtNDUuMyAwTDE5MiAyMTAuNyA4Ni42IDEwNS40Yy0xMi41LTEyLjUtMzIuOC0xMi41LTQ1LjMgMHMtMTIuNSAzMi44IDAgNDUuM0wxNDYuNyAyNTYgNDEuNCAzNjEuNGMtMTIuNSAxMi41LTEyLjUgMzIuOCAwIDQ1LjNzMzIuOCAxMi41IDQ1LjMgMEwxOTIgMzAxLjMgMjk3LjQgNDA2LjZjMTIuNSAxMi41IDMyLjggMTIuNSA0NS4zIDBzMTIuNS0zMi44IDAtNDUuM0wyMzcuMyAyNTYgMzQyLjYgMTUwLjZ6Ii8+PC9zdmc+);
@@ -4180,7 +4218,7 @@ a {
 .select-you-vehicle-popup .select-you-vehicle-form h2 {
     font-size: 2rem;
     margin-bottom: 30px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-weight: 700;
     padding-bottom: 0;
 }
@@ -4195,7 +4233,7 @@ a {
     margin-bottom: 10px;
 }
 
-.product-not-available-banner .icon { 
+.product-not-available-banner .icon {
     display: inline-flex;
     mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTM0Mi42IDE1MC42YzEyLjUtMTIuNSAxMi41LTMyLjggMC00NS4zcy0zMi44LTEyLjUtNDUuMyAwTDE5MiAyMTAuNyA4Ni42IDEwNS40Yy0xMi41LTEyLjUtMzIuOC0xMi41LTQ1LjMgMHMtMTIuNSAzMi44IDAgNDUuM0wxNDYuNyAyNTYgNDEuNCAzNjEuNGMtMTIuNSAxMi41LTEyLjUgMzIuOCAwIDQ1LjNzMzIuOCAxMi41IDQ1LjMgMEwxOTIgMzAxLjMgMjk3LjQgNDA2LjZjMTIuNSAxMi41IDMyLjggMTIuNSA0NS4zIDBzMTIuNS0zMi44IDAtNDUuM0wyMzcuMyAyNTYgMzQyLjYgMTUwLjZ6Ii8+PC9zdmc+);
     mask-position: center;
@@ -4205,6 +4243,51 @@ a {
     width: 24px;
     height: 24px;
 }
+
 .product-not-available-banner .text {
     padding-bottom: 3px;
+}
+
+
+.loader {
+    width: 90px;
+    height: 14px;
+    --color: #ce2f17;
+    color: #000;
+    background:
+        linear-gradient(90deg, #0000 16px, var(--color) 0 30px, #0000 0),
+        radial-gradient(circle closest-side at 68% 50%, var(--color) 92%, #0000),
+        conic-gradient(from 45deg at calc(100% - 7px) 50%, var(--color) 90deg, #0000 0),
+        conic-gradient(from -135deg at 7px 50%, var(--color) 90deg, #0000 0);
+    background-position: 0 0;
+    background-size: calc(3*100%/4) 100%;
+    background-repeat: repeat-x;
+    animation: l9 2s infinite linear;
+}
+
+@keyframes l9 {
+    100% {
+        background-position: -300% 0
+    }
+}
+
+.loader-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 10001;
+    background-color: rgba(0, 0, 0, .25);
+    backdrop-filter: blur(5px);
+    top: 0;
+
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+}
+.loader-container.active {
+    pointer-events: all;
+    opacity: 1;
 }

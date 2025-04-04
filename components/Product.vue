@@ -1,10 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 import { useVehiclePopupStore } from "@/stores/vehiclePopup";
+import VehicleSelector  from '~/components/VehiclePop.vue';
 const { $apiCall } = useNuxtApp();
 const vehiclePopup = useVehiclePopupStore();
 import { useRoute } from '#imports';
+import {useLoaderStore} from '~/stores/loaderStore';
+const loaderStore = useLoaderStore();
 const config = useRuntimeConfig();
+loaderStore.activeLoader();
 
 const route = useRoute();
 const product = ref({});
@@ -30,6 +34,7 @@ const { data: slugDetails, status: slugStatus, error: slugError } = useAsyncData
 
 watch(slugDetails, (newData) => {
     console.log('product ', newData);
+    
     if (newData) {
         if (newData.product) {
             productLoading.value = 0;
@@ -93,11 +98,13 @@ const initManageStoreVehicles = () => {
 
 
 onMounted(() => {
+    loaderStore.deactiveLoader();
     initManageStoreVehicles();
 });
 
 </script>
 <template>
+    <VehicleSelector></VehicleSelector>
     <main v-if="!productLoading">
         <div class="breadcrumb-header-section">
             <div class="wrapper">
@@ -155,7 +162,7 @@ onMounted(() => {
                                 {{ vehiclePopup.storeVehicles[0].make.name }}
                                 {{ vehiclePopup.storeVehicles[0].model.name }}</span>
                         </div>
-                        <div class="product-title" v-html="product.name"></div>
+                        <div class="product-title" v-html="product.pro_title"></div>
                         <div class="product-review">
                             <div class="product-review-stars">
                                 <div class="product-review-stars-fill">

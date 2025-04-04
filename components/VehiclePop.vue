@@ -203,7 +203,7 @@ const selectVehicle = () => {
     cookie_storeVehicles.value = vehicles;
     vehiclePopup.updateStoreVehicles(vehicles);
 
-    vehiclePopup.closePopup();
+    /* vehiclePopup.closePopup(); */
 }
 
 

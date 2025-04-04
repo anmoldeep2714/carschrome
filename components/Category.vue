@@ -1,5 +1,8 @@
 <template>
     <main>
+        <div class="not-popup">
+            <VehicleSelector></VehicleSelector>
+        </div>
         <div class="breadcrumb-header-section">
             <div class="wrapper">
                 <div class="inner">
@@ -15,39 +18,9 @@
         <div class="shop-filter-list-section">
             <div class="wrapper">
                 <div class="inner">
-                    <div class="shop-filter-left">
-                        <div class="shop-filter-wrapper" v-for="(menu, menuIndex) in menuData" :key="menuIndex">
-                            <div class="shop-filter-heading shop-filter-accordian-heading" v-html="menu.post_title">
-                            </div>
-
-                            <div class="shop-filter-accordian-content" style="display: block;">
-                                <div class="input-check-wrapper" v-for="(childMenu, childMenuIndex) in menu.children">
-
-
-                                    <!-- <NuxtLink :to="localePath(`/${childMenu.menu_slug}`)">
-                                        <span class="text" v-html="childMenu.post_title"></span>
-                                        <span class="count">({{childMenu.post_count}})</span>
-                                    </NuxtLink> -->
-
-                                    <a :class="{ 'router-link-active': childMenu.object_id == currentCategoryId }"
-                                        :href="localePath(`/${childMenu.menu_slug}`)">
-                                        <span class="text" v-html="childMenu.post_title"></span>
-                                        <span class="count">({{ childMenu.post_count }})</span>
-                                    </a>
-
-
-                                </div>
-                                <div class="view-more-toggle">
-                                    <span>View more</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--  <div class="filter-submission-wrapper">
-                            <button type="submit">
-                                <span>Filter</span>
-                            </button>
-                        </div> -->
+                    <h2>Shop {{categoryData.category.name}}</h2>
+                    <div class="desc">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis sed odit nam obcaecati consequuntur doloremque rerum, sint in facilis. Nulla eaque eum, nemo dolores molestias reprehenderit quia cum officiis laudantium.</p>
                     </div>
                     <div class="product-list-wrapper" v-if="!productsLoading">
                         <div class="product-list-header-wrapper">
@@ -104,13 +77,13 @@
                                     v-for="(product, productIdx) in products" :key="productIdx">
                                     <a :href="localePath(`/product/${product.pro_slug}`)" class="link-wrapper"></a>
                                     <div class="product-image">
-                                        <img :src="product.image_url" alt="">
+                                        <img :src="product.image_url" alt=""/>
                                     </div>
 
                                     <div class="product-content">
                                         <div class=""> 
                                             <div class="product-name">
-                                                <a :href="localePath(`/product/${product.pro_slug}`)" v-html="product.name"></a>
+                                                <a :href="localePath(`/product/${product.pro_slug}`)">{{product.pro_title}}</a>
                                             </div>
                                             <div class="product-review">
                                                 <div class="product-review-stars">
@@ -191,7 +164,7 @@
                                                 <span class="currency">$</span>
                                                 <span v-html="product.price"></span>
                                             </div> -->
-                                            <a :href="localePath(`/product/${product.pro_slug}`)" class="cart-button">
+                                            <a class="cart-button">
                                                 <span>${{product.price}}</span>
                                             </a> 
                                         </div>
@@ -204,16 +177,16 @@
                                 <div class="product-card" v-for="(product, productIdx) in products" :key="productIdx">
                                     <a :href="localePath(`/product/${product.pro_slug}`)" class="link-wrapper"></a> 
                                     <div class="product-image">
-                                        <img :src="product.image_url" alt="">
+                                        <img :src="product.image_url" alt=""/>
                                     </div>
                                     <div class="product-content"> 
                                         <div class="product-name">
-                                            <a :href="localePath(`/product/${product.pro_slug}`)" v-html="product.name"></a>
+                                            <a :href="localePath(`/product/${product.pro_slug}`)">{{product.pro_title}}</a>
                                         </div> 
                                     </div>
-                                    <a :href="localePath(`/product/${product.pro_slug}`)" class="cart-button">
+                                    <a class="cart-button">
+                                        <span>Add to cart</span>
                                         <span>${{product.price}}</span>
-                                         
                                     </a>
                                 </div>
                             </div>
@@ -233,6 +206,15 @@ import { useMenuStore } from '~/stores/menu';
 import { useRouter, useRoute, useLocalePath } from '#imports';
 import { ref, onMounted, watch } from 'vue';
 import Pagination from "@/components/Pagination.vue";
+import { useVehiclePopupStore } from "@/stores/vehiclePopup";
+const vehiclePopup = useVehiclePopupStore();
+import VehicleSelector  from '~/components/VehiclePop.vue';
+vehiclePopup.openPopup();
+
+import {useLoaderStore} from '~/stores/loaderStore';
+const loaderStore = useLoaderStore();
+
+loaderStore.activeLoader();
 
 const { $apiCall } = useNuxtApp();
 const config = useRuntimeConfig();
@@ -249,6 +231,9 @@ const pagination = ref({
     current_page: 1,
     total_pages: 1,
 });
+
+
+
 
 
 menuData.value = menuStore.getMenuData();
@@ -299,6 +284,7 @@ const changePage = (page) => {
 };
 
 const fetchProducts = async (page = 1) => {
+    loaderStore.activeLoader();
     /* const response = await fetch(`/api/products?page=${page}`);
     const data = await response.json();
     products.value = data.products;
@@ -330,11 +316,13 @@ const fetchProducts = async (page = 1) => {
 
     if (result.success) {
         const data = result.data;
+        const resultProducts = data.products;
         products.value = data.products;
         pagination.value = data.pagination;
     }
 
-    productsLoading.value = 0
+    productsLoading.value = 0;
+    loaderStore.deactiveLoader();
 };
 
 

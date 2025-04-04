@@ -8,6 +8,7 @@ import { useRoute } from '#imports';
 import Loader from '~/components/Loader.vue';
 import { useMenuStore } from '~/stores/menu';
 import { useVehiclePopupStore } from '~/stores/vehiclePopup';
+import {useLoaderStore} from '~/stores/loaderStore';
 
 import Category from '@/components/Category.vue';
 
@@ -21,6 +22,7 @@ if (cookie_storeVehicles.value != null || cookie_storeVehicles.value == '') {
 }
 
 const menuStore = useMenuStore();
+const loaderStore = useLoaderStore();
 /* const dynamicComponent = shallowRef(null); */
 const dynamicComponent = ref(null);
 const dynamicComponentName = ref(null);

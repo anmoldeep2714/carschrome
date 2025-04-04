@@ -11,7 +11,13 @@ export const useVehiclePopupStore = defineStore("vehiclePopup", () => {
             pageReloadState.value = true;
         }
     };
-    const closePopup = () => {
+    const closePopup = (pageReload:boolean = false) => {
+        if(pageReload){
+            pageReloadState.value = true;
+        }
+        else{
+            pageReloadState.value = true;
+        }
         showPopup.value = false;
         if(pageReloadState){
             location.reload();
