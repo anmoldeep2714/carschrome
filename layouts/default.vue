@@ -1,18 +1,18 @@
 <script>
 import Header from '~/components/Header.vue';
 import Footer from '~/components/Footer.vue';
-import VehicleSelector  from '~/components/VehiclePop.vue';
+import Loader from '~/components/Loader.vue';
 export default {
     components: {
         Header,
-        VehicleSelector,
+        Loader,
         Footer
     }
 }
 </script>
 <template>
     <Header></Header>
-    <VehicleSelector></VehicleSelector>
+    <Loader></Loader>
     <NuxtPage />
     <Footer></Footer>
 </template>
