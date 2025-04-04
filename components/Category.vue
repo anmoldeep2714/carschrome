@@ -360,8 +360,14 @@ const paginationMessage = computed(() => {
 
   const start = (current_page - 1) * per_page + 1;
   const end = Math.min(start + per_page - 1, total);
+  if(products.value.length==0){
+    return `0 Results`;
+  }
+  else{
+    return `Showing ${start}–${end} of ${total} results`;
+  }
 
-  return `Showing ${start}–${end} of ${total} results`;
+  
 });
 
 
