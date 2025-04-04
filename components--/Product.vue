@@ -1,47 +1,25 @@
 <script setup>
 import { ref } from 'vue'
 import { useMenuStore } from '~/stores/menu';
+import { useVehiclePopupStore } from "@/stores/vehiclePopup";
 
 
+/* swiper */
 import { Thumbs } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 const modules = [Thumbs];
-const menuStore = useMenuStore();
+/* end swiper */
 
+const vehiclePopup = useVehiclePopupStore();
+const menuStore = useMenuStore();
 const productData = ref(null);
 const product = ref({});
 const activeProductTab = ref(0);
-/* const productGalleryRef = ref(null);
-const productGalleryThumbRef = ref(null); */
 
 const thumbsSwiper = ref(null);
-
-
-
-
-
-
-
 productData.value = menuStore.getProductData();
 product.value = productData.value.product;
-
-/* const productImageThumbCarousel = new useSwiper(productGalleryThumbRef, {
-    slidesPerView: 5,
-    spaceBetween: 10,
-    watchSlidesProgress: true,
-    watchOverflow: true,
-    slideToClickedSlide: true,
-}); */
-
-/* const gallerySwiper = useSwiper(productGalleryRef, {
-    slidesPerView: 1,
-    spaceBetween: 0,
-    thumbs: {
-        swiper: productImageThumbCarousel,
-    }
-}); */
-
 const setThumbsSwiper = (swiper) => {
     thumbsSwiper.value = swiper;
 };
@@ -50,9 +28,18 @@ const toggleProductTabs = (tab) =>{
     activeProductTab.value = tab;
 }
 
+const selectedVehicles = ref([]);
+ 
+const initManageStoreVehicles = () => {
+    const storeVehicles = localStorage.getItem("selectedVehicles");
+    if (storeVehicles) {
+        selectedVehicles.value = JSON.parse(storeVehicles);
+    }
+}
+
 
 onMounted(() => {
-    /*  thumbsSwiper.value = productGalleryThumbRef.value.swiper; */
+    initManageStoreVehicles();
 });
 
 </script>
@@ -172,8 +159,8 @@ onMounted(() => {
                         </div>
                         <div class="product-price">${{ product.price }}</div>
                         <div class="product-desc" v-html="product.description"></div>
-                        <div class="product-select-vehicle-wrapper">
-                            <button type="submit" class="select-vehicle" onclick="addToCart()">
+                        <div class="product-select-vehicle-wrapper" v-if="selectedVehicles.length==0">
+                            <button type="submit" class="select-vehicle" @click="vehiclePopup.openPopup()">
                                 <span>Select vehicle</span>
                             </button>
                         </div>
@@ -185,7 +172,7 @@ onMounted(() => {
                                     <span class="down" onclick="changeQuantity(-1)"></span>
                                 </div>
                             </div>
-                            <button type="submit" class="add-to-cart" onclick="addToCart()">
+                            <button type="submit" class="add-to-cart">
                                 <span>Add to cart</span>
                             </button>
                         </div>

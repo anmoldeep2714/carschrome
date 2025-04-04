@@ -6,7 +6,6 @@ const config = useRuntimeConfig();
 const { $apiCall } = useNuxtApp();
 const { locales, locale } = useI18n();
 
-const cookie_storeVehicles = useCookie('cookie_storeVehicles');
 const selectedVehicles = ref([]);
 const showVehicleForm = ref({show:true,loading:1});
 
@@ -46,7 +45,12 @@ const initManageStoreVehicles = () => {
     showVehicleForm.value.loading = 0;
 }
 
-
+watch(selectedVehicles, (newVal) => {
+    localStorage.setItem("selectedVehicles", JSON.stringify(newVal));
+    if(newVal.length > 0){
+        showVehicleForm.value.show = false;
+    }
+}, { deep: true })
 
 
 
@@ -200,21 +204,9 @@ const selectVehicle = () => {
     }
     
     selectedVehicles.value = vehicles;
-    cookie_storeVehicles.value = vehicles;
-    vehiclePopup.updateStoreVehicles(vehicles);
 
     vehiclePopup.closePopup();
 }
-
-
-watch(selectedVehicles, (newVal) => {
-    localStorage.setItem("selectedVehicles", JSON.stringify(newVal));
-    if(newVal.length > 0){
-        showVehicleForm.value.show = false;
-    }
-    cookie_storeVehicles.value = newVal;
-    vehiclePopup.updateStoreVehicles(newVal);
-}, { deep: true })
 
 const resetVehicle = () =>{
     selectedVehicles.value = [];

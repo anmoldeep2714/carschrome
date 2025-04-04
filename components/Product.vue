@@ -20,6 +20,8 @@ const activeProductTab = ref(0);
 const thumbsSwiper = ref(null);
 productData.value = menuStore.getProductData();
 product.value = productData.value.product;
+
+console.log('product',product.value);
 const setThumbsSwiper = (swiper) => {
     thumbsSwiper.value = swiper;
 };
@@ -87,6 +89,15 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="product-details-side">
+                        <div class="product-not-available-banner" v-if="vehiclePopup.storeVehicles.length==0 && product.stock_status!='instock'">
+                            <span class="icon"></span>
+                            <span class="text">Out of stock</span>
+                        </div>
+
+                        <div class="product-not-available-banner" v-if="vehiclePopup.storeVehicles.length > 0 && !product.fitment_status">
+                            <span class="icon"></span>
+                            <span class="text">This part does NOT fit {{vehiclePopup.storeVehicles[0].year}} {{vehiclePopup.storeVehicles[0].make.name}} {{vehiclePopup.storeVehicles[0].model.name}}</span>
+                        </div>
                         <div class="product-title" v-html="product.name"></div>
                         <div class="product-review">
                             <div class="product-review-stars">
@@ -160,11 +171,11 @@ onMounted(() => {
                         <div class="product-price">${{ product.price }}</div>
                         <div class="product-desc" v-html="product.description"></div>
                         <div class="product-select-vehicle-wrapper" v-if="selectedVehicles.length==0">
-                            <button type="submit" class="select-vehicle" @click="vehiclePopup.openPopup()">
+                            <button type="submit" class="select-vehicle" @click="vehiclePopup.openPopup(true)">
                                 <span>Select vehicle</span>
                             </button>
                         </div>
-                        <div class="product-add-to-cart-wrapper">
+                        <div class="product-add-to-cart-wrapper" v-if="(product.stock_status=='instock' && product.fitment_status && vehiclePopup.storeVehicles.length > 0)">
                             <div class="quantity-input">
                                 <input type="text" id="quantity" value="1">
                                 <div class="quantity-input-arrows">

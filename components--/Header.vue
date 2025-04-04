@@ -332,11 +332,11 @@ onBeforeUnmount(() => {
                                             <span class="text"v-html="childMenu.post_title"></span>
                                         </a> -->
 
-                                        <NuxtLink @click="closeNavBar"
+                                        <a @click="closeNavBar"
                                             v-for="(childMenu, childMenuIndex) in menu.children"
-                                            :to="localePath(`/${childMenu.menu_slug}`)">
+                                            :href="localePath(`/${childMenu.menu_slug}`)">
                                             <span class="text" v-html="childMenu.post_title"></span>
-                                        </NuxtLink>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

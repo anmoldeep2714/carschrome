@@ -7,11 +7,22 @@ const config = useRuntimeConfig();
 import { useRoute } from '#imports';
 import Loader from '~/components/Loader.vue';
 import { useMenuStore } from '~/stores/menu';
+import { useVehiclePopupStore } from '~/stores/vehiclePopup';
 
 import Category from '@/components/Category.vue';
 import Product from '@/components/Product.vue';
 
 
+const vehiclePopup = useVehiclePopupStore();
+const cookie_storeVehicles = useCookie('cookie_storeVehicles');
+
+
+
+if (cookie_storeVehicles.value != null || cookie_storeVehicles.value == '') {
+    vehiclePopup.updateStoreVehicles(cookie_storeVehicles.value);
+}
+
+console.log('cookie_storeVehicles',vehiclePopup.storeVehicles);
 
 const menuStore = useMenuStore();
 /* const dynamicComponent = shallowRef(null); */
@@ -25,12 +36,19 @@ const { data: slugDetails, status: slugStatus, error: slugError } = useAsyncData
         action: 'slug-details',
         slug: slug,
     }
+
+    if(vehiclePopup.storeVehicles.length > 0){
+        const selectedVehicle = vehiclePopup.storeVehicles[0];
+        params.year = selectedVehicle.year;
+        params.make = selectedVehicle.make.term_id;
+        params.model = selectedVehicle.model.term_id;
+        params.isFitment = 1;
+    }
+
     return await apiCall(config.public.apiBase, "GET", params);
 });
 
 watch(slugDetails, (newData) => {
-    console.log('category_data', newData);
-
     if (newData) {
        
         if (!newData.type) {

@@ -6,14 +6,16 @@ const config = useRuntimeConfig();
 const { $apiCall } = useNuxtApp();
 const { locales, locale } = useI18n();
 import { useRouter } from "vue-router";
-
+import { useVehiclePopupStore } from '~/stores/vehiclePopup';
 import { useLocalePath } from "#imports";
 
+const vehiclePopup = useVehiclePopupStore();
 const router = useRouter();
 const localePath = useLocalePath();
 
 const categoriesCrRef = ref(null);
 const bestSellerProducts = ref({ loading: true, data: [] });
+const cookie_storeVehicles = useCookie('cookie_storeVehicles');
 
 import replacementImg from '~/assets/images/replacementparts.jpg';
 import bodypartsImg from '~/assets/images/bodyparts.jpg';
@@ -82,6 +84,8 @@ watch(selectedVehicles, (newVal) => {
     if(newVal.length > 0){
         showVehicleForm.value.show = false;
     }
+    cookie_storeVehicles.value = newVal;
+    vehiclePopup.updateStoreVehicles(newVal);
 }, { deep: true })
 
 
