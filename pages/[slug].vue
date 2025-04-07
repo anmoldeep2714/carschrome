@@ -1,14 +1,14 @@
 <script setup>
-import { ref, onMounted,shallowRef } from 'vue';
+import { useRoute, useAsyncData, useHead } from '#imports';
+import { ref, onMounted, shallowRef } from 'vue';
 const { $apiCall } = useNuxtApp();
 const { locales, locale } = useI18n();
 const config = useRuntimeConfig();
 /* import axios from 'axios'; */
-import { useRoute } from '#imports';
 import Loader from '~/components/Loader.vue';
 import { useMenuStore } from '~/stores/menu';
 import { useVehiclePopupStore } from '~/stores/vehiclePopup';
-import {useLoaderStore} from '~/stores/loaderStore';
+import { useLoaderStore } from '~/stores/loaderStore';
 
 import Category from '@/components/Category.vue';
 
@@ -29,13 +29,13 @@ const dynamicComponentName = ref(null);
 const route = useRoute();
 const slug = route.params.slug;
 
-const { data: slugDetails, status: slugStatus, error: slugError } = useAsyncData("slugDetails", async () => {
+const { data: slugDetails, status: slugStatus, error: slugError } = await useAsyncData("slugDetails", async () => {
     const params = {
         action: 'slug-details',
         slug: slug,
     }
 
-    if(vehiclePopup.storeVehicles.length > 0){
+    if (vehiclePopup.storeVehicles.length > 0) {
         const selectedVehicle = vehiclePopup.storeVehicles[0];
         params.year = selectedVehicle.year;
         params.make = selectedVehicle.make.term_id;
@@ -48,13 +48,13 @@ const { data: slugDetails, status: slugStatus, error: slugError } = useAsyncData
 
 watch(slugDetails, (newData) => {
     if (newData) {
-       
+
         if (!newData.type) {
 
         } else {
 
-            
-            
+
+
             var type = newData.type;
             if (type == 'category') {
                 menuStore.setCategoryData(newData);
@@ -63,7 +63,13 @@ watch(slugDetails, (newData) => {
                 ); */
                 dynamicComponentName.value = 'category';
                 useHead({
-                    title:`Carschrome - ${newData.category.name}`
+                    title: `Carschrome - ${newData.category.name}`,
+                    meta: [
+                        {
+                            property: 'og:title',
+                            content: newData.category.name,
+                        },
+                    ]
                 });
             }
 
@@ -160,6 +166,6 @@ onMounted(() => {
 
 <template>
     <!-- <component :is="dynamicComponent" v-if="dynamicComponent" /> -->
-     <category v-if="dynamicComponentName && dynamicComponentName=='category'"></category>
-     <!-- <Product v-if="dynamicComponentName && dynamicComponentName=='product'"></Product> -->
+    <category v-if="dynamicComponentName && dynamicComponentName == 'category'"></category>
+    <!-- <Product v-if="dynamicComponentName && dynamicComponentName=='product'"></Product> -->
 </template>

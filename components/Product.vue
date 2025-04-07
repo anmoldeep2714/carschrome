@@ -1,11 +1,11 @@
 <script setup>
+import { useRoute, useAsyncData, useHead } from '#imports';
 import { ref } from 'vue'
 import { useVehiclePopupStore } from "@/stores/vehiclePopup";
-import VehicleSelector  from '~/components/VehiclePop.vue';
+import VehicleSelector from '~/components/VehiclePop.vue';
 const { $apiCall } = useNuxtApp();
 const vehiclePopup = useVehiclePopupStore();
-import { useRoute } from '#imports';
-import {useLoaderStore} from '~/stores/loaderStore';
+import { useLoaderStore } from '~/stores/loaderStore';
 const loaderStore = useLoaderStore();
 const config = useRuntimeConfig();
 loaderStore.activeLoader();
@@ -15,7 +15,7 @@ const product = ref({});
 const productLoading = ref(1);
 const slug = route.params.slug;
 
-const { data: slugDetails, status: slugStatus, error: slugError } = useAsyncData("slugDetails", async () => {
+const { data: slugDetails, status: slugStatus, error: slugError } = await useAsyncData("slugDetails", async () => {
     const params = {
         action: 'product-details',
         slug: slug,
@@ -34,7 +34,7 @@ const { data: slugDetails, status: slugStatus, error: slugError } = useAsyncData
 
 watch(slugDetails, (newData) => {
     console.log('product ', newData);
-    
+
     if (newData) {
         if (newData.product) {
             productLoading.value = 0;
@@ -44,6 +44,18 @@ watch(slugDetails, (newData) => {
                 title: product.value.pro_title,
                 meta: [
                     { name: "description", content: "" },
+                    {
+                        property: 'og:title',
+                        content: product.pro_title,
+                    },
+                    {
+                        property: 'og:description',
+                        content: product.meta_description || '',
+                    },
+                    {
+                        property: 'og:image',
+                        content: product.image_url || '',
+                    },
                 ],
             });
         }
@@ -104,7 +116,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <VehicleSelector></VehicleSelector>
+    <VehicleSelector :reloadVehiclePop="true"></VehicleSelector>
     <main v-if="!productLoading">
         <div class="breadcrumb-header-section">
             <div class="wrapper">
@@ -333,7 +345,8 @@ onMounted(() => {
                             Description</div>
                         <div class="tab" @click="toggleProductTabs(1)" :class="{ 'active': 1 == activeProductTab }">
                             Specification</div>
-                        <div class="tab" @click="toggleProductTabs(2)" :class="{ 'active': 2 == activeProductTab }">Reviews
+                        <div class="tab" @click="toggleProductTabs(2)" :class="{ 'active': 2 == activeProductTab }">
+                            Reviews
                             <span class="count">(1)</span>
                         </div>
                     </div>

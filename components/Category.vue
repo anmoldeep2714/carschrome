@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="not-popup">
-            <VehicleSelector></VehicleSelector>
+            <VehicleSelector :reloadVehiclePop="true"></VehicleSelector>
         </div>
         <div class="breadcrumb-header-section">
             <div class="wrapper">
@@ -165,6 +165,7 @@
                                                 <span v-html="product.price"></span>
                                             </div> -->
                                             <a class="cart-button">
+                                                <span>Add to cart</span>
                                                 <span>${{product.price}}</span>
                                             </a> 
                                         </div>

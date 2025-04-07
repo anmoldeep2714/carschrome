@@ -8,10 +8,9 @@ import { useRoute } from '#imports';
 import Loader from '~/components/Loader.vue';
 import { useMenuStore } from '~/stores/menu';
 import { useVehiclePopupStore } from '~/stores/vehiclePopup';
+import {useLoaderStore} from '~/stores/loaderStore';
 
 import Category from '@/components/Category.vue';
-import Product from '@/components/Product.vue';
-
 
 const vehiclePopup = useVehiclePopupStore();
 const cookie_storeVehicles = useCookie('cookie_storeVehicles');
@@ -22,9 +21,8 @@ if (cookie_storeVehicles.value != null || cookie_storeVehicles.value == '') {
     vehiclePopup.updateStoreVehicles(cookie_storeVehicles.value);
 }
 
-console.log('cookie_storeVehicles',vehiclePopup.storeVehicles);
-
 const menuStore = useMenuStore();
+const loaderStore = useLoaderStore();
 /* const dynamicComponent = shallowRef(null); */
 const dynamicComponent = ref(null);
 const dynamicComponentName = ref(null);
@@ -64,6 +62,9 @@ watch(slugDetails, (newData) => {
                     import(`@/components/Category.vue`)
                 ); */
                 dynamicComponentName.value = 'category';
+                useHead({
+                    title:`Carschrome - ${newData.category.name}`
+                });
             }
 
             if (type == 'product') {
@@ -90,8 +91,6 @@ const fetchWP = async () => {
         params: params
     });
 
-    console.log(result);
-
     if (result.error) {
 
     }
@@ -104,7 +103,6 @@ const fetchWP = async () => {
 
 
 const getCartCount = async () => {
-    console.log('getCartCount');
     try {
         const response = await fetch(`${config.public.siteUrl}wp-json/custom/v1/cart-count`, {
             credentials: "include"
@@ -163,5 +161,5 @@ onMounted(() => {
 <template>
     <!-- <component :is="dynamicComponent" v-if="dynamicComponent" /> -->
      <category v-if="dynamicComponentName && dynamicComponentName=='category'"></category>
-     <Product v-if="dynamicComponentName && dynamicComponentName=='product'"></Product>
+     <!-- <Product v-if="dynamicComponentName && dynamicComponentName=='product'"></Product> -->
 </template>
