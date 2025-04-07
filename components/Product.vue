@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute, useAsyncData, useHead } from '#imports';
+import { useRoute, useAsyncData, useHead,useRequestURL } from '#imports';
 import { ref } from 'vue'
 import { useVehiclePopupStore } from "@/stores/vehiclePopup";
 import VehicleSelector from '~/components/VehiclePop.vue';
@@ -14,6 +14,10 @@ const route = useRoute();
 const product = ref({});
 const productLoading = ref(1);
 const slug = route.params.slug;
+const url = useRequestURL();
+
+const fullUrl = `${url.origin}${route.fullPath}`
+
 
 const { data: slugDetails, status: slugStatus, error: slugError } = await useAsyncData("slugDetails", async () => {
     const params = {
@@ -56,6 +60,8 @@ watch(slugDetails, (newData) => {
                         property: 'og:image',
                         content: product.value.image_url || '',
                     },
+                    { property: 'og:type', content: 'product' },
+                    { property: 'og:url', content: fullUrl },
                 ],
             });
         }
