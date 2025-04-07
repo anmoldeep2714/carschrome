@@ -12,19 +12,21 @@ export const useVehiclePopupStore = defineStore("vehiclePopup", () => {
         }
     };
     const closePopup = (pageReload:boolean = false) => {
-        if(pageReload){
-            pageReloadState.value = true;
-        }
-        else{
-            pageReloadState.value = true;
-        }
+        console.log('closePopup');
+        pageReloadState.value = pageReload;
         showPopup.value = false;
-        if(pageReloadState){
-            location.reload();
+        if(pageReload==true){
+          location.reload();
         }
+    };
+
+    const triggershowPopup = () => {
+        showPopup.value = true;
+
+        console.log('showPopup_value',showPopup.value);
     };
     const updateStoreVehicles = (updatedVehicles:[]) => (storeVehicles.value=updatedVehicles);
     
 
-    return { showPopup,storeVehicles,openPopup, closePopup,updateStoreVehicles };
+    return { showPopup,storeVehicles,openPopup, closePopup,updateStoreVehicles,triggershowPopup };
 });

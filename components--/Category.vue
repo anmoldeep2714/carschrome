@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="not-popup">
-            <VehicleSelector></VehicleSelector>
+            <VehicleSelector :reloadVehiclePop="true"></VehicleSelector>
         </div>
         <div class="breadcrumb-header-section">
             <div class="wrapper">
@@ -153,11 +153,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="product-desc">
-                                                <a href="">Alienum phaedrum torquatos nec eu, vis detraxit periculis ex,
-                                                    nihil expete mei. Mei an consequat an. Eius lorem tincidunt vix at,
-                                                    vel pertinax sensibus id, error epicurei mea et.</a>
-                                            </div>
+                                            <div class="product-desc" v-html="product.description"></div>
                                         </div>
                                         <div class="">
                                             <!-- <div class="product-price">
@@ -165,6 +161,7 @@
                                                 <span v-html="product.price"></span>
                                             </div> -->
                                             <a class="cart-button">
+                                                <span>Add to cart</span>
                                                 <span>${{product.price}}</span>
                                             </a> 
                                         </div>

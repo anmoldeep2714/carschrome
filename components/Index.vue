@@ -276,7 +276,7 @@ onMounted(() => {
                     <h2>{{ $t('home_page.banner_description') }}</h2>
 
 
-                    <div class="select-you-vehicle-form" v-if="!showVehicleForm.loading && showVehicleForm.show">
+                    <div class="select-you-vehicle-form" v-if="(!showVehicleForm.loading && showVehicleForm.show) || (vehiclePopup.storeVehicles.length==0)">
                         <div class="input-row">
                             <div class="input-column">
                                 <div class="input-wrapper input-select-wrapper">
@@ -319,7 +319,7 @@ onMounted(() => {
                         </div>
                     </div>
 
-                    <div v-if="!showVehicleForm.loading && !showVehicleForm.show" class="select-you-vehicle-form active-vehicle-form">
+                    <div v-if="!showVehicleForm.loading && !showVehicleForm.show && vehiclePopup.storeVehicles.length > 0" class="select-you-vehicle-form active-vehicle-form">
                         <h3>Your vehicle</h3>
                         <div class="input-row">
                             <div class="input-column">

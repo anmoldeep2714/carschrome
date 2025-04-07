@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="not-popup">
-            <VehicleSelector :reloadVehiclePop="true"></VehicleSelector>
+           <VehicleSelector :reloadVehiclePop="true" :closeVehiclePop="false" :onPageSectionPop="true"></VehicleSelector> 
         </div>
         <div class="breadcrumb-header-section">
             <div class="wrapper">
@@ -206,7 +206,7 @@ import Pagination from "@/components/Pagination.vue";
 import { useVehiclePopupStore } from "@/stores/vehiclePopup";
 const vehiclePopup = useVehiclePopupStore();
 import VehicleSelector  from '~/components/VehiclePop.vue';
-vehiclePopup.openPopup();
+/* vehiclePopup.openPopup(); */
 
 import {useLoaderStore} from '~/stores/loaderStore';
 const loaderStore = useLoaderStore();

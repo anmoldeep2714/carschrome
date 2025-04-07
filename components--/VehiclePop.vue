@@ -1,4 +1,7 @@
 <script setup>
+const vehicleProps = defineProps({
+    reloadVehiclePop: Boolean
+})
 import { useVehiclePopupStore } from "~/stores/vehiclePopup";
 const vehiclePopup = useVehiclePopupStore();
 import { onMounted, ref } from 'vue';
@@ -8,7 +11,8 @@ const { locales, locale } = useI18n();
 
 const cookie_storeVehicles = useCookie('cookie_storeVehicles');
 const selectedVehicles = ref([]);
-const showVehicleForm = ref({show:true,loading:1});
+const showVehicleForm = ref({ show: true, loading: 1 });
+
 
 const fitmentYearRef = ref(null);
 const fitmentYears = ref({
@@ -16,6 +20,7 @@ const fitmentYears = ref({
     data: {},
     selectedValue: null
 });
+
 
 const fitmentMakeRef = ref(null);
 const fitmentMakes = ref({
@@ -37,8 +42,8 @@ const initManageStoreVehicles = () => {
     console.log('initManageStoreVehicles');
     if (storeVehicles) {
         selectedVehicles.value = JSON.parse(storeVehicles);
-        console.log('storeVehicles ',selectedVehicles.value);
-        if(selectedVehicles.value.length > 0){
+        console.log('storeVehicles ', selectedVehicles.value);
+        if (selectedVehicles.value.length > 0) {
             showVehicleForm.value.show = false;
         }
     }
@@ -80,6 +85,7 @@ const getFitMentYears = async () => {
 
 const handleYearChange = () => {
     /*  resetMake(); */
+    fitmentMakes.value.selectedValue = null;
     resetModel();
     getFitMentMakes();
 }
@@ -195,13 +201,19 @@ const selectVehicle = () => {
         // Update existing entry
         vehicles[existingIndex] = newVehicle;
     }
-    else{
+    else {
         vehicles.push(newVehicle);
     }
-    
+
     selectedVehicles.value = vehicles;
     cookie_storeVehicles.value = vehicles;
     vehiclePopup.updateStoreVehicles(vehicles);
+
+    if (vehicleProps.reloadVehiclePop) {
+        location.reload();
+    } else {
+        vehiclePopup.closePopup();
+    }
 
     /* vehiclePopup.closePopup(); */
 }
@@ -209,23 +221,32 @@ const selectVehicle = () => {
 
 watch(selectedVehicles, (newVal) => {
     localStorage.setItem("selectedVehicles", JSON.stringify(newVal));
-    if(newVal.length > 0){
+    if (newVal.length > 0) {
         showVehicleForm.value.show = false;
     }
     cookie_storeVehicles.value = newVal;
     vehiclePopup.updateStoreVehicles(newVal);
 }, { deep: true })
 
-const resetVehicle = () =>{
-    selectedVehicles.value = [];
-    showVehicleForm.value.show = true;
+const resetVehicle = () => {
+    if (vehicleProps.reloadVehiclePop) {
+        selectedVehicles.value = [];
+
+        setTimeout(()=>{
+            location.reload();
+        },500);
+        
+    }
+    else {
+        showVehicleForm.value.show = true;
+    }
+
 }
 
 
-const modifyVehicle = () =>{
+const modifyVehicle = () => {
     showVehicleForm.value.show = true;
 }
-
 onMounted(() => {
     initManageStoreVehicles();
     getFitMentYears();
@@ -243,8 +264,9 @@ onMounted(() => {
                         <div class="input-column">
                             <div class="input-wrapper input-select-wrapper">
                                 <div class="serial">1</div>
-                                <el-select filterable :automatic-dropdown="true" placeholder="Select Year" style="width: 240px"
-                                    v-model="fitmentYears.selectedValue" @change="handleYearChange" ref="fitmentYearRef">
+                                <el-select filterable :automatic-dropdown="true" placeholder="Select Year"
+                                    style="width: 240px" v-model="fitmentYears.selectedValue" @change="handleYearChange"
+                                    ref="fitmentYearRef">
                                     <el-option v-for="(year, yearIdx) in fitmentYears.data" :label="year" :key="yearIdx"
                                         :value="year" />
                                 </el-select>
@@ -253,20 +275,21 @@ onMounted(() => {
                         <div class="input-column">
                             <div class="input-wrapper input-select-wrapper">
                                 <div class="serial">2</div>
-                                <el-select filterable :automatic-dropdown="true" placeholder="Select Make" style="width: 240px"
-                                    v-model="fitmentMakes.selectedValue" ref="fitmentMakeRef" @change="handleMakeChange">
-                                    <el-option v-for="(make, makeIdx) in fitmentMakes.data" :label="make.name" :key="makeIdx"
-                                        :value="make.term_id" />
+                                <el-select filterable :automatic-dropdown="true" placeholder="Select Make"
+                                    style="width: 240px" v-model="fitmentMakes.selectedValue" ref="fitmentMakeRef"
+                                    @change="handleMakeChange">
+                                    <el-option v-for="(make, makeIdx) in fitmentMakes.data" :label="make.name"
+                                        :key="makeIdx" :value="make.term_id" />
                                 </el-select>
                             </div>
                         </div>
                         <div class="input-column">
                             <div class="input-wrapper input-select-wrapper">
                                 <div class="serial">3</div>
-                                <el-select filterable :automatic-dropdown="true" placeholder="Select Model" style="width: 240px"
-                                    v-model="fitmentModels.selectedValue" ref="fitmentModelRef">
-                                    <el-option v-for="(model, makeIdx) in fitmentModels.data" :label="model.name" :key="makeIdx"
-                                        :value="model.term_id" />
+                                <el-select filterable :automatic-dropdown="true" placeholder="Select Model"
+                                    style="width: 240px" v-model="fitmentModels.selectedValue" ref="fitmentModelRef">
+                                    <el-option v-for="(model, makeIdx) in fitmentModels.data" :label="model.name"
+                                        :key="makeIdx" :value="model.term_id" />
                                 </el-select>
                             </div>
                         </div>
@@ -290,7 +313,8 @@ onMounted(() => {
                                     </svg>
                                 </div>
                                 <div class="active-text"> <span>{{ selectedVehicles[0].year }} </span> <span>{{
-                                        selectedVehicles[0].make.name }} </span> <span>{{ selectedVehicles[0].model.name }}
+                                    selectedVehicles[0].make.name }} </span> <span>{{ selectedVehicles[0].model.name
+                                        }}
                                     </span> </div>
                                 <div class="reset" @click="resetVehicle">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

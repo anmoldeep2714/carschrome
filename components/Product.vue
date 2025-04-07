@@ -122,7 +122,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <VehicleSelector :reloadVehiclePop="true"></VehicleSelector>
+    <VehicleSelector :reloadVehiclePop="true" :closeVehiclePop="true"></VehicleSelector>
     <main v-if="!productLoading">
         <div class="breadcrumb-header-section">
             <div class="wrapper">
@@ -253,7 +253,7 @@ onMounted(() => {
                         <div class="product-price">${{ product.price }}</div>
                         <div class="product-desc" v-html="product.description"></div>
                         <div class="product-select-vehicle-wrapper" v-if="selectedVehicles.length == 0">
-                            <button type="submit" class="select-vehicle" @click="vehiclePopup.openPopup(true)">
+                            <button type="submit" class="select-vehicle" @click="vehiclePopup.openPopup()">
                                 <span>Select vehicle</span>
                             </button>
                         </div>
