@@ -46,15 +46,15 @@ watch(slugDetails, (newData) => {
                     { name: "description", content: "" },
                     {
                         property: 'og:title',
-                        content: product.pro_title,
+                        content: product.value.pro_title,
                     },
                     {
                         property: 'og:description',
-                        content: product.meta_description || '',
+                        content: product.value.meta_description || '',
                     },
                     {
                         property: 'og:image',
-                        content: product.image_url || '',
+                        content: product.value.image_url || '',
                     },
                 ],
             });
